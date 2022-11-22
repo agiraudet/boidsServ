@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:54:55 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/21 15:56:31 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:17:32 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "Coord.hpp"
 # include <iostream>
+# include <vector>
 
 class	Flock;
 
@@ -39,14 +40,23 @@ class	Boid
 		Coord const &	getDir(void) const;
 		void			setDir(Coord const & dir);
 		void			setFlock(Flock *flock);
-		void			ruleOne(void);
 		void			live(void);
+		void	limitSpeed(void);
+void	applyDir(void);
 
 	private:
+
+		void	lookAround(void);
+		void	flyTowardCenter(void);
+		void	avoidOthers(void);
+		void	matchVelocity(void);
+		void	keepWithinBounds(void);
+		void	_initOtherBoids(void);
 
 		unsigned int	_id;
 		Coord			_pos;
 		Coord			_dir;
+		std::vector<double>	_otherBoids;
 		Flock			*_flock;
 
 };

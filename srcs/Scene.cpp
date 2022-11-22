@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/19 15:26:10 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:12:35 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,32 @@ void	Scene::_initSdl(void)
 	}
 }
 
-void	Scene::render(void)
+void	Scene::_renderSingleBoid(Boid const & boid)
+{
+	SDL_Rect		rect;
+	Coord const &	boidPos = boid.getPos();
+
+	rect.x = boidPos.getX();
+	rect.y = boidPos.getY();
+	rect.h = BS_HG;
+	rect.w = BS_WD;
+	SDL_SetRenderDrawColor(this->_ren, BC_R, BC_G, BC_B, 0x00);
+	SDL_RenderFillRect(this->_ren, &rect);
+}
+
+void	Scene::render(Flock *flock)
 {
 	SDL_SetRenderDrawColor(this->_ren, 0x00, 0x00, 0x00, 0x00);
 	SDL_RenderClear(this->_ren);
-	//boid.render()
+
+	if (flock)
+	{
+		for (size_t i = 0; i < flock->size(); i++)
+		{
+			this->_renderSingleBoid(flock->getBoid(i));
+		}
+	}
+
 	SDL_RenderPresent(this->_ren);
 	this->_timer.capFps(this->_maxFps);
 }

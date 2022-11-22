@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:17:06 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/21 14:00:24 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:27:21 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ void	Timer::_update(void)
 void	Timer::capFps(int & maxFps)
 {
 	int	framesTicks = SDL_GetTicks() - this->_initTime - this->_relativeTime;
+	/*
 	if (framesTicks < 1000 / maxFps)
 		SDL_Delay(1000 / maxFps - framesTicks);
+		*/
 	this->_update();
 	if (SHOW_AVGFPS)
 		std::cout << this->_avgFps << std::endl;

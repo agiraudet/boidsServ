@@ -6,7 +6,7 @@
 #    By: mbenabbo <mbenabbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/11/21 15:25:10 by agiraude         ###   ########.fr        #
+#    Updated: 2022/11/22 16:29:21 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS		:=	main.cpp \
 				Coord.cpp \
 				Flock.cpp \
 				Scene.cpp \
-				Timer.cpp
+				Timer.cpp \
+				utils.cpp
 
 OBJS		:=	$(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 
@@ -31,7 +32,7 @@ INC_DIRS	:=	./includes
 
 INC_FLAGS	:=	$(addprefix -I, $(INC_DIRS))
 
-CXXFLAGS	:=	-MD -Wall -Wextra -Werror -g $(INC_FLAGS)
+CXXFLAGS	:=	-MD -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -g $(INC_FLAGS)
 
 CXX			:=	c++
 

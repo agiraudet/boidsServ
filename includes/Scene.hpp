@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:47:23 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/19 15:23:19 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:13:43 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SCENE_HPP
 
 # include "Timer.hpp"
+# include "Flock.hpp"
 # include <SDL2/SDL.h>
 
 class	Scene
@@ -27,11 +28,12 @@ class	Scene
 		
 		Scene & operator=(Scene const & rhs);
 
-		void	render(void);
+		void	render(Flock *flock);
 
 	private:
 
 		void			_initSdl(void);
+		void			_renderSingleBoid(Boid const & boid);
 
 		int				_scWd;
 		int				_scHg;
