@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/22 16:25:39 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 14:04:04 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(void)
 	flock.randomizeDir(10., 10.);
 
 
-	for(;;)
+	for(size_t i = 0; i < 100; i++)
 	{
 		flock.update();
 //		std::cout << flock << std::endl;
@@ -41,5 +41,6 @@ int main(void)
 				break;
 		}
 	}
+	std::cout << "AvgFps: " << sc.getAvgFps() << std::endl;
 	return (0);
 }

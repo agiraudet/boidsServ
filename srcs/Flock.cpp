@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/22 16:30:43 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 14:09:01 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ Coord const &	Flock::getPos(size_t id) const
 {
 	if (id >= this->_size)
 		throw std::exception();
-	//return this->_oldPos[id];
 	return this->_boids[id].getPos();
 }
 
@@ -77,7 +76,6 @@ Coord const &	Flock::getDir(size_t id) const
 {
 	if (id >= this->_size)
 		throw std::exception();
-	//return this->_oldDir[id];
 	return this->_boids[id].getDir();
 }
 
@@ -104,13 +102,6 @@ void	Flock::randomizeDir(double const & maxX, double const & maxY)
 
 void	Flock::update(void)
 {
-	/*
-	for (size_t i = 0; i < this->_size; i++)
-	{
-		this->_oldPos[i] = this->_boids[i].getPos();
-		this->_oldDir[i] = this->_boids[i].getDir();
-	}
-	*/
 	for (size_t i = 0; i < this->_size; i++)
 		this->_boids[i].live();
 	for (size_t i = 0; i < this->_size; i++)

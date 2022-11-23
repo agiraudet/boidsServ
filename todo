@@ -1,0 +1,4 @@
+add a .conf file
+add thickness dependig of the direction of the boid (see smarter everyday video at 07:48)
+add multithreading and optimisation
+refactor flock vs boid

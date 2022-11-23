@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/22 11:12:35 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:34:48 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ Scene & Scene::operator=(Scene const & rhs)
 
 void	Scene::_initSdl(void)
 {
-	Uint32	flags;
+	Uint32	flags = 0;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		throw std::exception();
@@ -95,4 +95,9 @@ void	Scene::render(Flock *flock)
 
 	SDL_RenderPresent(this->_ren);
 	this->_timer.capFps(this->_maxFps);
+}
+
+double	Scene::getAvgFps(void) const
+{
+	return this->_timer.getAvgFps();
 }

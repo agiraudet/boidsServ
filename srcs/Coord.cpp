@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:57:25 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/22 11:58:20 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:29:59 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,9 @@ void	Coord::setY(double y)
 
 double Coord::getDist(Coord const & c) const
 {
-	return (sqrt(pow((c.getX() - this->_x), 2) + pow((c.getY() - this->_y), 2)));
+//	return (sqrt(pow((c.getX() - this->_x), 2) + pow((c.getY() - this->_y), 2)));
+	return sqrt(((c.getX() - this->_x) * (c.getX() - this->_x))
+			  + ((c.getY() - this->_y) * (c.getY() - this->_y)));
 }
 
 double	Coord::getVel(void) const

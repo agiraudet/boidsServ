@@ -6,7 +6,7 @@
 #    By: mbenabbo <mbenabbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/11/22 16:29:21 by agiraude         ###   ########.fr        #
+#    Updated: 2022/11/23 13:48:55 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,9 @@ INC_DIRS	:=	./includes
 
 INC_FLAGS	:=	$(addprefix -I, $(INC_DIRS))
 
-CXXFLAGS	:=	-MD -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -g $(INC_FLAGS)
+CXXFLAGS	:=	-MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -g $(INC_FLAGS)
 
-CXX			:=	c++
+CXX			:=	clang++
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) $(DEPS) -o $@

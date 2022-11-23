@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:47:23 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/22 11:13:43 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 09:16:08 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class	Scene
 		Scene & operator=(Scene const & rhs);
 
 		void	render(Flock *flock);
+		double	getAvgFps(void) const;
 
 	private:
 

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:15:10 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/19 15:28:50 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 09:15:30 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class	Timer
 		Timer & operator=(Timer const & rhs);
 
 		void	capFps(int & maxFps);
+		double	getAvgFps(void) const;
 
 	private:
 

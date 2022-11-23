@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:17:11 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/22 16:31:24 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 09:17:21 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define DFLT_SCWD 720
 # define DFLT_SCHG 480
-# define DFLT_MAXFPS 60
+# define DFLT_MAXFPS 6000000
 # define DEBUG true
 # define SHOW_AVGFPS false
 
@@ -27,7 +27,7 @@
 # define MARGIN 50.
 # define BOID_TURNFACTOR 1.
 # define BOID_SPEEDLIMIT 10.
-# define BOID_VIEWRANGE	75.
+# define BOID_VIEWRANGE	50.
 
 # define BS_HG 5
 # define BS_WD 5
