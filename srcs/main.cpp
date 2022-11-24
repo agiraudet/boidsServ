@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 08:32:35 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:32:34 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(void)
 	flock.randomizeDir(10., 10.);
 
 
-	for(size_t i = 0; i < 100; i++)
+	for(size_t i = 0; i < 1000; i++)
 	{
 		flock.update();
 //		std::cout << flock << std::endl;

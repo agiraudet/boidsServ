@@ -1,4 +1,6 @@
 build
 boids
 test
+.test
 profiling
+.profiling

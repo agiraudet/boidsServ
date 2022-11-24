@@ -6,12 +6,13 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 09:02:55 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:40:08 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Flock.hpp"
 #include "utils.hpp"
+#include <functional>
 
 Flock::Flock(void)
 : _size(0)
@@ -45,6 +46,8 @@ Flock & Flock::operator=(Flock const & rhs)
 
 void	Flock::_init(void)
 {
+	this->thPool.resize(4);
+
 	for (size_t i = 0; i < this->_size; i++)
 	{
 		Boid	newBoid(i, this);
@@ -67,7 +70,14 @@ Coord const &	Flock::getDir(size_t id) const
 	return this->_boids[id].getDir();
 }
 
-Boid const &	Flock::getBoid(size_t id) const
+Boid &	Flock::getBoid(size_t id) 
+{
+	if (id >= this->_size)
+		throw std::exception();
+	return this->_boids[id];
+}
+
+Boid const &	Flock::getCBoid(size_t id) const
 {
 	if (id >= this->_size)
 		throw std::exception();
@@ -90,8 +100,20 @@ void	Flock::randomizeDir(double const & maxX, double const & maxY)
 
 void	Flock::update(void)
 {
+	std::vector<std::future<void>>	ftr;
+	bool singleThread = false;
+
 	for (size_t i = 0; i < this->_size; i++)
-		this->_boids[i].update();
+	{
+		if (singleThread)
+			this->_boids[i].update();
+		else
+			ftr.push_back(this->thPool.push(threadBoid, this, i));
+	}
+	for (size_t i = 0; i < ftr.size() && !singleThread; i++)
+	{
+		ftr[i].wait();
+	}
 }
 
 std::ostream &	operator<<(std::ostream & o, Flock const & rhs)
@@ -101,7 +123,7 @@ std::ostream &	operator<<(std::ostream & o, Flock const & rhs)
 	o << "Flock of size " << fSize << ":" << std::endl;
 	for (size_t i = 0; i < fSize; i++)
 	{
-		o << rhs.getBoid(i);
+		o << rhs.getCBoid(i);
 		if (i < fSize - 1)
 			o << std::endl;
 	}

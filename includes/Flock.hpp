@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:03:01 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 09:01:49 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:30:18 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "Boid.hpp"
 # include <vector>
 # include <iostream>
+# include "cptl_stl.h"
 
 class	Flock
 {
@@ -30,7 +31,8 @@ class	Flock
 		size_t			size(void) const;
 		Coord const &	getPos(size_t id) const;
 		Coord const &	getDir(size_t id) const;
-		Boid const &	getBoid(size_t id) const;
+		Boid &	getBoid(size_t id);
+		Boid const &	getCBoid(size_t id) const;
 		void			randomizePos(double const & maxX, double const & maxY);
 		void			randomizeDir(double const & maxX, double const & maxY);
 		void			update(void);
@@ -44,6 +46,7 @@ void	debugDraw(void);
 
 		std::vector<Boid>					_boids;
 		size_t								_size;
+		ctpl::thread_pool					thPool;
 };
 
 std::ostream &	operator<<(std::ostream & o, Flock const & rhs);

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:17:11 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/23 15:57:35 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:33:08 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@
 # define BC_R 0
 # define BC_G 255
 # define BC_B 0
+
+# define THREAD_DEBUG false
 
 #endif
