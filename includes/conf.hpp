@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:17:11 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/23 09:17:21 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:57:35 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define MARGIN 50.
 # define BOID_TURNFACTOR 1.
 # define BOID_SPEEDLIMIT 10.
-# define BOID_VIEWRANGE	50.
+# define BOID_VIEWRANGE	75.
 
 # define BS_HG 5
 # define BS_WD 5

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/23 14:04:04 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 08:32:35 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(void)
 	Scene	sc;
 	SDL_Event	event;
 
-	Flock	flock(500);
+	Flock	flock(1000);
 	flock.randomizePos(DFLT_SCWD - BS_WD, DFLT_SCHG - BS_HG);
 	flock.randomizeDir(10., 10.);
 
