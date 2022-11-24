@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:54:55 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 08:42:44 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 09:31:58 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,14 @@ class	Boid
 		Coord const &	getDir(void) const;
 		void			setDir(Coord const & dir);
 		void			setFlock(Flock *flock);
-		void			live(void);
-void	applyDir(void);
-void	loop(void);
+		void			update(void);
 
 	private:
 
-		void			update(void);
-		void	flyTowardCenter(void);
-		void	avoidOthers(void);
-		void	matchVelocity(void);
-		void	keepWithinBounds(void);
-		void	limitSpeed(void);
+		void	_baseRules(void);
+		void	_applyDir(void);
+		void	_keepWithinBounds(void);
+		void	_limitSpeed(void);
 
 		unsigned int	_id;
 		Coord			_pos;

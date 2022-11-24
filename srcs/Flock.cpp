@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 08:50:34 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 09:02:55 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,16 @@ Flock & Flock::operator=(Flock const & rhs)
 		return *this;
 	this->_size = rhs._size;
 	this->_boids = rhs._boids;
-	this->_dist = rhs._dist;
 	return *this;
 }
 
 void	Flock::_init(void)
 {
-
-	/*
-	this->_boids = new Boid[this->_size];
-	this->_dist = new double*[this->_size];
-
-	for (size_t i = 0; i < this->_size; i++)
-	{
-		this->_boids[i].setId(i);
-		this->_boids[i].setFlock(this);
-		this->_dist[i] = new double[this->_size];
-	}
-	*/
-
 	for (size_t i = 0; i < this->_size; i++)
 	{
 		Boid	newBoid(i, this);
 		this->_boids.push_back(newBoid);
 	}
-	this->_dist = std::vector<std::vector<double>> (this->_size, std::vector<double> (this->_size, 0.));
 }
 
 size_t	Flock::size(void) const
@@ -103,31 +88,10 @@ void	Flock::randomizeDir(double const & maxX, double const & maxY)
 	}
 }
 
-double	Flock::getDist(size_t const & idA, size_t const & idB) const
-{
-	return (0.);
-}
-
 void	Flock::update(void)
 {
 	for (size_t i = 0; i < this->_size; i++)
-	{
-		/*
-		this->processDist(i);
-		this->_boids[i].live();
-		this->_boids[i].applyDir();
-		*/
-		this->_boids[i].loop();
-	}
-}
-
-void	Flock::processDist(size_t const & id)
-{
-	for (size_t i = 0; i < this->_size; i++)
-	{
-		if (i != id)
-			this->_dist[id][i] = this->getPos(id).getDist(this->getPos(i));
-	}
+		this->_boids[i].update();
 }
 
 std::ostream &	operator<<(std::ostream & o, Flock const & rhs)
