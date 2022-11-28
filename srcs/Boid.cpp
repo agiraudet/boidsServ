@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:01:20 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 09:31:46 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:11:51 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,20 @@ void	Boid::update(void)
 void	Boid::_applyDir(void)
 {
 	this->_pos += this->_dir;
+}
+
+void	Boid::render(SDL_Renderer *ren) const
+{
+	SDL_Rect		rect;
+
+	if (!ren)
+		return;
+
+	rect.x = this->_pos.getX();
+	rect.y = this->_pos.getY();
+	rect.h = BS_HG;
+	rect.w = BS_WD;
+	SDL_RenderFillRect(ren, &rect);
 }
 
 std::ostream &	operator<<(std::ostream & o, Boid const & rhs)

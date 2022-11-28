@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/23 13:34:48 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:07:39 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 Scene::Scene(void)
 : _scWd(DFLT_SCWD), _scHg(DFLT_SCHG), _fullSc(false), _maxFps(DFLT_MAXFPS), _win(NULL), _ren(NULL)
 {
+	std::srand(time(NULL));
 	this->_initSdl();
 }
 
 Scene::Scene(int scWd, int scHg, bool fullSc)
 : _scWd(scWd), _scHg(scHg), _fullSc(fullSc), _maxFps(DFLT_MAXFPS), _win(NULL), _ren(NULL)
 {
+	std::srand(time(NULL));
 	this->_initSdl();
 }
 
@@ -80,19 +82,11 @@ void	Scene::_renderSingleBoid(Boid const & boid)
 	SDL_RenderFillRect(this->_ren, &rect);
 }
 
-void	Scene::render(Flock *flock)
+void	Scene::render(Sky const & sky)
 {
 	SDL_SetRenderDrawColor(this->_ren, 0x00, 0x00, 0x00, 0x00);
 	SDL_RenderClear(this->_ren);
-
-	if (flock)
-	{
-		for (size_t i = 0; i < flock->size(); i++)
-		{
-			this->_renderSingleBoid(flock->getBoid(i));
-		}
-	}
-
+	sky.render(this->_ren);
 	SDL_RenderPresent(this->_ren);
 	this->_timer.capFps(this->_maxFps);
 }

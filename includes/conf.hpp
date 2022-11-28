@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 15:17:11 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 15:33:08 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:13:31 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 # define DFLT_SCWD 720
 # define DFLT_SCHG 480
-# define DFLT_MAXFPS 6000000
+# define DFLT_MAXFPS 60
 # define DEBUG true
-# define SHOW_AVGFPS false
+# define SHOW_AVGFPSALWAYS false
+# define SHOW_AVGFPSATEND true
 
 # define BOID_CENTERINGFACTOR 0.005
 # define BOID_MATCHINGFACTOR 0.05

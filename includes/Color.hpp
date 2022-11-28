@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
+/*   Color.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/22 11:39:14 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:21:49 by agiraude         ###   ########.fr       */
+/*   Created: 2022/11/28 14:41:55 by agiraude          #+#    #+#             */
+/*   Updated: 2022/11/28 14:45:04 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-# define UTILS_HPP
+#ifndef COLOR_HPP
+# define COLOR_HPP
 
-class Flock;
+# include "SDL2/SDL.h"
 
-template<typename T>
-T	randNb(T const & min, T const & max)
+class	Color
 {
-	return (min + (rand() / (RAND_MAX / (max - min))));
-}
+	public:
 
-double	randDouble(double const & min, double const & max);
-void	threadBoid(int threadId, Flock *flock, size_t id);
+		Color(void);
+		Color(Uint8 r, Uint8 g, Uint8 b);
+		Color(Color const & src);
+		~Color(void);
+		
+		Color & operator=(Color const & rhs);
 
-extern ctpl::thread_pool	g_thPool;
+		void	randomize(void);
 
+		Uint8	r;
+		Uint8	b;
+		Uint8	g;
+		Uint8	a;
+
+};
 #endif

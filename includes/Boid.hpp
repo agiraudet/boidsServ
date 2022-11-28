@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:54:55 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 09:31:58 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:11:17 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BOID_HPP
 
 # include "Coord.hpp"
+# include "SDL2/SDL.h"
 # include <iostream>
 # include <vector>
 
@@ -41,6 +42,7 @@ class	Boid
 		void			setDir(Coord const & dir);
 		void			setFlock(Flock *flock);
 		void			update(void);
+		void			render(SDL_Renderer *ren) const;
 
 	private:
 
