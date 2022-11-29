@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:54:55 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:11:17 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:50:33 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ class	Boid
 
 	private:
 
-		void	_baseRules(void);
-		void	_applyDir(void);
-		void	_keepWithinBounds(void);
-		void	_limitSpeed(void);
+		void			_baseRules(void);
+		void			_applyDir(void);
+		void			_keepWithinBounds(void);
+		void			_limitSpeed(void);
 
 		unsigned int	_id;
 		Coord			_pos;
@@ -57,6 +57,7 @@ class	Boid
 		Flock			*_flock;
 };
 
+void			boidThreadUpdate(int threadId, Boid *boid);
 std::ostream &	operator<<(std::ostream & o, Boid const & rhs);
 
 #endif

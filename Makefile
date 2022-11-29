@@ -6,7 +6,7 @@
 #    By: mbenabbo <mbenabbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/11/28 15:04:49 by agiraude         ###   ########.fr        #
+#    Updated: 2022/11/29 13:59:59 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,10 @@ SRCS		:=	main.cpp \
 				Boid.cpp \
 				Coord.cpp \
 				Flock.cpp \
+				Setting.cpp \
 				Scene.cpp \
 				Sky.cpp \
-				Timer.cpp \
-				utils.cpp
+				Timer.cpp
 
 OBJS		:=	$(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 

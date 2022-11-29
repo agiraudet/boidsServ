@@ -6,11 +6,12 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:43:06 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:46:36 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sky.hpp"
+#include "utils.hpp"
 #include "conf.hpp"
 
 Sky::Sky(void)
@@ -80,9 +81,21 @@ size_t	Sky::size(void) const
 
 void	Sky::update(void)
 {
-	//TODO add multithreading here
-	for (size_t i = 0; i < this->_flocks.size(); i++)
-		this->_flocks[i]->update();
+	bool	singleThread = true;
+
+	if (singleThread)
+	{
+		for (size_t i = 0; i < this->_flocks.size(); i++)
+			this->_flocks[i]->update();
+	}
+	else
+	{
+		std::vector<std::future<void>>	ftr;
+		for (size_t i = 0; i < this->_flocks.size(); i++)
+			ftr.push_back(g_thPool.push(flockThreadUpdate, this->_flocks[i]));
+		for (size_t i = 0; i < ftr.size(); i++)
+			ftr[i].wait();
+	}
 }
 
 void	Sky::render(SDL_Renderer *ren) const

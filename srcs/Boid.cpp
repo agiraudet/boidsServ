@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:01:20 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:11:51 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:50:25 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,14 @@ void	Boid::render(SDL_Renderer *ren) const
 	SDL_RenderFillRect(ren, &rect);
 }
 
+void	boidThreadUpdate(int threadId, Boid *boid)
+{
+	boid->update();
+}
+
 std::ostream &	operator<<(std::ostream & o, Boid const & rhs)
 {
 	o << "B" << rhs.getId() << ": " << rhs.getPos() << " " << rhs.getDir() << rhs.getDir().getVel();
 	return o;
 }
+

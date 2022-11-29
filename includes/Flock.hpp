@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:03:01 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 14:56:31 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:40:28 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ class	Flock
 		Flock(void);
 		void	_init(void);
 
-		std::vector<Boid>	_boids;
+		std::vector<Boid*>	_boids;
 		size_t				_size;
 		SDL_Color			_color;
 };
 
+void			flockThreadUpdate(int threadId, Flock *flock);
 std::ostream &	operator<<(std::ostream & o, Flock const & rhs);
 
 #endif

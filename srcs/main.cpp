@@ -6,19 +6,20 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:40:18 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:35:54 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Setting.hpp"
 #include "Scene.hpp"
 #include "Sky.hpp"
 #include "Boid.hpp"
 #include "Flock.hpp"
 #include "conf.hpp"
-#include "utils.hpp"
 #include <SDL2/SDL.h>
 
 ctpl::thread_pool	g_thPool;
+Setting				g_set;
 
 int main(void)
 {
@@ -27,11 +28,16 @@ int main(void)
 	Sky					sky;
 
 	g_thPool.resize(4);
+	g_set.loadFile(".conf");
+	if (g_set.getSetBool("printSettings"))
+		std::cout << g_set << std::endl;
 
 	sky.addFlock(500, 255, 0, 0);
 	sky.addFlock(300, 0, 255, 0);
+	sky.addFlock(150);
 
-	for(;;)
+	for(int i = 0; i < 1000; i++)
+	//for(;;)
 	{
 		sky.update();
 		sc.render(sky);

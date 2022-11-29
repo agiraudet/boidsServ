@@ -1,5 +1,6 @@
 add a .conf file
 add thickness dependig of the direction of the boid (see smarter everyday video at 07:48)
 add multithreading and optimisation
-refactor flock vs boid
-replace boids by ptr to boids in flock
+create new types of boids
+use .conf without impacting performances
+add interactive control ? (gui ?)
