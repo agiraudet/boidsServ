@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:22:43 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:41:30 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:11:54 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class	Sky
 		void	addFlock(size_t size);
 		void	addFlock(size_t size, Uint8 r, Uint8 g, Uint8 b);
 		void	addFlock(size_t size, SDL_Color const & color);
-		void	delFlock(size_t id);
+		void	delFlock(int id);
 		size_t	size(void) const;
 		void	update(void);
 		void	render(SDL_Renderer *ren) const;

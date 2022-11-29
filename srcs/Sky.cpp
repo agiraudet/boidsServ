@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 16:46:36 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:13:19 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,11 @@ void	Sky::_randomizeFlock(Flock & flock)
 	flock.randomizeDir(10., 10.);
 }
 
-void	Sky::delFlock(size_t id)
+void	Sky::delFlock(int id)
 {
-	if (id < this->_flocks.size())
+	if (id < 0)
+		id = this->_flocks.size() + id;
+	if (id >= 0 && id < static_cast<int>(this->_flocks.size()))
 		this->_flocks.erase(this->_flocks.begin() + id);
 }
 

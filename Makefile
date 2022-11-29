@@ -6,7 +6,7 @@
 #    By: mbenabbo <mbenabbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/11/29 13:59:59 by agiraude         ###   ########.fr        #
+#    Updated: 2022/11/29 17:15:39 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ $(NAME): $(OBJS)
 
 
 $(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)/cmds
+	mkdir -p $(BUILD_DIR)
 
 $(BUILD_DIR)/%.o: $(SRCS_DIR)/%.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@ 

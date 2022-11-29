@@ -6,12 +6,14 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:39:14 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:21:49 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:05:29 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_HPP
 # define UTILS_HPP
+
+# include "cptl_stl.h"
 
 class Flock;
 

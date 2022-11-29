@@ -1,6 +1,4 @@
-add a .conf file
 add thickness dependig of the direction of the boid (see smarter everyday video at 07:48)
-add multithreading and optimisation
 create new types of boids
-use .conf without impacting performances
-add interactive control ? (gui ?)
+use .conf without impacting performances -> add a ruleset Class to each boid/flock
+add interactive control ? (gui or cmdPrompt ?)

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 16:35:54 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:17:13 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "Sky.hpp"
 #include "Boid.hpp"
 #include "Flock.hpp"
+#include "utils.hpp"
 #include "conf.hpp"
 #include <SDL2/SDL.h>
 
@@ -36,8 +37,8 @@ int main(void)
 	sky.addFlock(300, 0, 255, 0);
 	sky.addFlock(150);
 
-	for(int i = 0; i < 1000; i++)
-	//for(;;)
+	//for(int i = 0; i < 1000; i++)
+	for(;;)
 	{
 		sky.update();
 		sc.render(sky);
@@ -48,6 +49,10 @@ int main(void)
 		{
 			if (event.key.keysym.sym == SDLK_q)
 				break;
+			else if (event.key.keysym.sym == SDLK_a)
+				sky.addFlock(randNb(50, 500));
+			else if (event.key.keysym.sym == SDLK_s)
+				sky.delFlock(-1);
 		}
 	}
 	
