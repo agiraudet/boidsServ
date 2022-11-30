@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 14:56:35 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:55:06 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,9 @@ void	Flock::randomizeColor(void)
 
 void	Flock::update(void)
 {
-	bool singleThread = false;
+	static bool multiThread = g_set.getSetBool("multithreading");
 
-	if (singleThread)
+	if (!multiThread)
 	{
 		for (size_t i = 0; i < this->_size; i++)
 			this->_boids[i]->update();
@@ -155,7 +155,7 @@ void	Flock::update(void)
 		std::vector<std::future<void>>	ftr;
 		for (size_t i = 0; i < this->_size; i++)
 			ftr.push_back(g_thPool.push(boidThreadUpdate, this->_boids[i]));
-		for (size_t i = 0; i < ftr.size() && !singleThread; i++)
+		for (size_t i = 0; i < ftr.size(); i++)
 			ftr[i].wait();
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:02:26 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 14:14:56 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:22:16 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ bool	Setting::loadFile(std::string const & confFile)
 	}
 
 	std::string	line;
+	size_t		n = -1;
 	while (file)
 	{
+		n++;
 		std::getline(file, line);
+		if (line[0] == '#')
+			continue;
 		size_t sepPos = line.find('=');
 		if (sepPos == std::string::npos)
 			continue;
@@ -66,7 +70,7 @@ bool	Setting::loadFile(std::string const & confFile)
 		std::string value = line.substr(sepPos + 1);
 		this->_trim(value);
 
-		if (std::isdigit(value[0]))
+		if (std::isdigit(value[0]) || (value[0] == '-' && std::isdigit(value[1])))
 		{
 			if (value.find('.') == std::string::npos)
 				this->_intSet[key] = atoi(value.c_str());
@@ -77,6 +81,11 @@ bool	Setting::loadFile(std::string const & confFile)
 			this->_boolSet[key] = true;
 		else if (value.compare("false") == 0)
 			this->_boolSet[key] = false;
+		else
+		{
+			std::cerr << "Invalid syntax(" << confFile << ":" << n << "): "
+				<< line << std::endl;
+		}
 	}
 	file.close();
 	return true;
@@ -106,23 +115,19 @@ void	Setting::_dfltValues(void)
 	this->_intSet["boid_height"] = 5;
 	this->_intSet["boid_width"] = 5;
 	this->_intSet["fps_max"] = 60;
+	this->_intSet["nb_cycle"] = -1;
+	this->_intSet["nb_thread"] = 4;
 	this->_intSet["screen_height"] = 480;
 	this->_intSet["screen_margin"] = 50;
 	this->_intSet["screen_width"] = 720;
-	this->_dblSet["avoid_factor"] = 0.05;
-	this->_dblSet["centering_factor"] = 0.005;
-	this->_dblSet["matching_factor"] = 0.05;
-	this->_dblSet["min_dist"] = 10;
-	this->_dblSet["speed_limit"] = 10;
-	this->_dblSet["turn_factor"] = 1;
-	this->_dblSet["view_range"] = 75;
-	this->_boolSet["debug_fps"] = true;
+	this->_boolSet["cap_fps"] = false;
+	this->_boolSet["debug_fps"] = false;
 	this->_boolSet["debug_fps_atexit"] = true;
-	this->_boolSet["debug_info"] = true;
-	this->_boolSet["debug_thread"] = true;
-	this->_boolSet["multithreading"] = true;
+	this->_boolSet["debug_thread"] = false;
+	this->_boolSet["force_nb_thread"] = false;
 	this->_boolSet["fullscreen"] = false;
-	this->_boolSet["printSettings"] = false;
+	this->_boolSet["multithreading"] = true;
+	this->_boolSet["print_settings"] = false;
 }
 
 int Setting::getSetInt(std::string const & setting) const

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 15:44:22 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:59:17 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ void	init(void)
 	g_set.loadFile(".conf");
 	if (g_set.getSetBool("print_settings"))
 		std::cout << g_set << std::endl;
+	int	nbThread;
 	if (g_set.getSetBool("force_nb_thread"))
-		g_thPool.resize(g_set.getSetInt("nb_thread"));
+		nbThread = g_set.getSetInt("nb_thread");
 	else
-		g_thPool.resize(std::thread::hardware_concurrency());
+		nbThread = std::thread::hardware_concurrency();
+	g_thPool.resize(nbThread);
+	if (g_set.getSetBool("debug_thread"))
+		std::cout << "ThreadPool resized: " << nbThread << std::endl;
 }
 
 int main(void)
@@ -44,8 +48,8 @@ int main(void)
 	sky.addFlock(300, 0, 255, 0);
 	sky.addFlock(150);
 
-//	for(int i = 0; i < 1000; i++)
-	for(;;)
+	int	nbCycle = g_set.getSetInt("nb_cycle");
+	for(int i = 0; i != nbCycle; i++)
 	{
 		sky.update();
 		sc.render(&sky);
