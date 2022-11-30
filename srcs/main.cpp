@@ -6,11 +6,10 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 17:17:13 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:27:05 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Setting.hpp"
 #include "Scene.hpp"
 #include "Sky.hpp"
 #include "Boid.hpp"
@@ -30,7 +29,7 @@ int main(void)
 
 	g_thPool.resize(4);
 	g_set.loadFile(".conf");
-	if (g_set.getSetBool("printSettings"))
+	if (g_set.getSetBool("print_settings"))
 		std::cout << g_set << std::endl;
 
 	sky.addFlock(500, 255, 0, 0);

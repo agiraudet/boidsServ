@@ -6,15 +6,15 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:03:01 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 17:04:02 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:27:48 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FLOCK_HPP
 # define FLOCK_HPP
 
+# include "Setting.hpp"
 # include "Boid.hpp"
-# include "RuleSet.hpp"
 # include <vector>
 # include <iostream>
 # include "SDL2/SDL.h"
@@ -42,8 +42,6 @@ class	Flock
 		void			randomizeColor(void);
 		void			update(void);
 		void			render(SDL_Renderer *ren) const;
-
-		RuleSet			ruleSet;
 
 	private:
 
