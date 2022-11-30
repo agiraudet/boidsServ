@@ -39,5 +39,4 @@ Currently, each Flock just ignore each other, but that will change in the future
 * Get a better visual for the boids.
 * Create different type of boids with differents ruleset
 * Allow Flocks to see each other (and thus interract)
-* Finish the implemention of a config file (currently using ugly macro in _conf.hpp_ ).
 * Create a proper control system (might be either via a GUI or a command prompt)
