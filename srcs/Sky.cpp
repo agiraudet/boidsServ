@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 15:36:00 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:42:30 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	Sky::addFlock(size_t size, SDL_Color const & color)
 
 void	Sky::_randomizeFlock(Flock & flock)
 {
-	flock.randomizePos(flock.ruleset.getMaxX(), flock.ruleset.getMaxY());
+	flock.randomizePos();
 	flock.randomizeDir(10., 10.);
 }
 

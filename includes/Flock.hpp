@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:03:01 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 14:56:41 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:41:59 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class	Flock
 		Coord const &	getDir(size_t id) const;
 		Boid*			getBoid(size_t id);
 		Boid const &	getCBoid(size_t id) const;
+		void			randomizePos(void);
 		void			randomizePos(double const & maxX, double const & maxY);
 		void			randomizeDir(double const & maxX, double const & maxY);
 		void			randomizeColor(void);

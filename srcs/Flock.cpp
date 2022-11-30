@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 15:55:06 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 16:41:45 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,14 @@ void	Flock::setColor(SDL_Color const & color)
 	this->_color.g = color.g;
 	this->_color.b = color.b;
 	this->_color.a = color.a;
+}
+
+void	Flock::randomizePos(void)
+{
+	for (size_t i = 0; i < this->_size; i++)
+		this->_boids[i]->setPos(Coord(
+					randNb(this->ruleset.getMinX(), this->ruleset.getMaxX()),
+					randNb(this->ruleset.getMinY(), this->ruleset.getMaxY())));
 }
 
 void	Flock::randomizePos(double const & maxX, double const & maxY)

@@ -40,3 +40,4 @@ Currently, each Flock just ignore each other, but that will change in the future
 * Create different type of boids with differents ruleset
 * Allow Flocks to see each other (and thus interract)
 * Create a proper control system (might be either via a GUI or a command prompt)
+* Implement an easy way of changing differents flocks rulesets
