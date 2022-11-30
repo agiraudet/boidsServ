@@ -6,24 +6,28 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:07:39 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:45:55 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Scene.hpp"
-#include "conf.hpp"
+#include "Setting.hpp"
 #include <SDL2/SDL.h>
 #include <exception>
 
 Scene::Scene(void)
-: _scWd(DFLT_SCWD), _scHg(DFLT_SCHG), _fullSc(false), _maxFps(DFLT_MAXFPS), _win(NULL), _ren(NULL)
+: _scWd(g_set.getSetInt("screen_width")),
+_scHg(g_set.getSetInt("screen_height")),
+_fullSc(g_set.getSetBool("fullscreen")),
+_maxFps(g_set.getSetInt("fps_max")), _win(NULL), _ren(NULL)
 {
 	std::srand(time(NULL));
 	this->_initSdl();
 }
 
 Scene::Scene(int scWd, int scHg, bool fullSc)
-: _scWd(scWd), _scHg(scHg), _fullSc(fullSc), _maxFps(DFLT_MAXFPS), _win(NULL), _ren(NULL)
+: _scWd(scWd), _scHg(scHg), _fullSc(g_set.getSetBool("fullscreen")),
+_maxFps(g_set.getSetInt("fps_max")), _win(NULL), _ren(NULL)
 {
 	std::srand(time(NULL));
 	this->_initSdl();
@@ -69,24 +73,46 @@ void	Scene::_initSdl(void)
 	}
 }
 
-void	Scene::_renderSingleBoid(Boid const & boid)
-{
-	SDL_Rect		rect;
-	Coord const &	boidPos = boid.getPos();
-
-	rect.x = boidPos.getX();
-	rect.y = boidPos.getY();
-	rect.h = BS_HG;
-	rect.w = BS_WD;
-	SDL_SetRenderDrawColor(this->_ren, BC_R, BC_G, BC_B, 0x00);
-	SDL_RenderFillRect(this->_ren, &rect);
-}
-
-void	Scene::render(Sky const & sky)
+void	Scene::_render(Sky *sky) 
 {
 	SDL_SetRenderDrawColor(this->_ren, 0x00, 0x00, 0x00, 0x00);
 	SDL_RenderClear(this->_ren);
-	sky.render(this->_ren);
+	if (!sky)
+		return;
+	for (size_t i = 0; i < sky->size(); i++)
+		this->_render(sky->getFlock(i));
+}
+
+void	Scene::_render(Flock *flock) 
+{
+	if (!flock)
+		return;
+
+	SDL_Color const &	color = flock->getColor();
+	SDL_SetRenderDrawColor(this->_ren, color.r, color.g, color.b, 0);
+	for (size_t i = 0; i < flock->size(); i++)
+		this->_render(flock->getBoid(i));
+}
+
+void	Scene::_render(Boid *boid) 
+{
+	static int	boidHeight = g_set.getSetInt("boid_height");
+	static int	boidWidth = g_set.getSetInt("boid_width");
+
+	if (!boid)
+		return;
+	SDL_Rect		rect;
+	Coord const &	boidPos = boid->getPos();
+	rect.x = boidPos.getX();
+	rect.y = boidPos.getY();
+	rect.h = boidHeight;
+	rect.w = boidWidth;
+	SDL_RenderFillRect(this->_ren, &rect);
+}
+
+void	Scene::render(Sky *sky)
+{
+	this->_render(sky);
 	SDL_RenderPresent(this->_ren);
 	this->_timer.capFps(this->_maxFps);
 }

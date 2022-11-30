@@ -6,18 +6,18 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:17:06 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/24 16:01:34 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:47:12 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Timer.hpp"
-#include "conf.hpp"
+#include "Setting.hpp"
 #include <iostream>
 #include <time.h>
 #include <SDL2/SDL.h>
 
 Timer::Timer(void)
-: _initTime(SDL_GetTicks()), _relativeTime(0), _frames(0), _avgFps(DFLT_MAXFPS)
+: _initTime(SDL_GetTicks()), _relativeTime(0), _frames(0), _avgFps(0)
 {
 }
 
@@ -52,11 +52,13 @@ void	Timer::_update(void)
 
 void	Timer::capFps(int & maxFps)
 {
+	static bool	capFps = g_set.getSetBool("cap_fps");
+
 	int	framesTicks = SDL_GetTicks() - this->_initTime - this->_relativeTime;
-	if (framesTicks < 1000 / maxFps)
+	if (capFps && framesTicks < 1000 / maxFps)
 		SDL_Delay(1000 / maxFps - framesTicks);
 	this->_update();
-	if (SHOW_AVGFPSALWAYS)
+	if (g_set.getSetBool("debug_fps"))
 		std::cout << this->_avgFps << std::endl;
 }
 

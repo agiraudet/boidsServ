@@ -6,13 +6,12 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:01:20 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 16:50:25 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:14:21 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Boid.hpp"
 #include "Flock.hpp"
-#include "conf.hpp"
 #include <unistd.h>
 
 Boid::Boid(void)
@@ -28,6 +27,10 @@ Boid::Boid(unsigned int id)
 Boid::Boid(unsigned int id, Flock *flock)
 : _id(id), _pos(Coord(0., 0.)), _dir(Coord(0., 0.)), _flock(flock)
 {
+	if (flock)
+		this->_ruleset = &(flock->ruleset);
+	else
+		this->_ruleset = NULL;
 }
 
 Boid::Boid(unsigned int id, Coord pos)
@@ -83,6 +86,10 @@ void	Boid::setDir(Coord const & dir)
 void	Boid::setFlock(Flock *flock)
 {
 	this->_flock =  flock;
+	if (flock)
+		this->_ruleset = &(flock->ruleset);
+	else
+		this->_ruleset = NULL;
 }
 
 unsigned int Boid::getId(void) const
@@ -97,22 +104,24 @@ void	Boid::setId(unsigned int id)
 
 void	Boid::_keepWithinBounds(void)
 {
-	if (this->_pos.getX() < MARGIN)
-		this->_dir.setX(this->_dir.getX() + BOID_TURNFACTOR);
-	if (this->_pos.getX() > DFLT_SCWD - MARGIN)
-		this->_dir.setX(this->_dir.getX() - BOID_TURNFACTOR);
-	if (this->_pos.getY() < MARGIN)
-		this->_dir.setY(this->_dir.getY() + BOID_TURNFACTOR);
-	if (this->_pos.getY() > DFLT_SCHG - MARGIN)
-		this->_dir.setY(this->_dir.getY() - BOID_TURNFACTOR);
+	double	turnFactor = this->_ruleset->getTurn();
+
+	if (this->_pos.getX() < this->_ruleset->getMinX())
+		this->_dir.setX(this->_dir.getX() + turnFactor);
+	if (this->_pos.getX() > this->_ruleset->getMaxX())
+		this->_dir.setX(this->_dir.getX() - turnFactor);
+	if (this->_pos.getY() < this->_ruleset->getMinY())
+		this->_dir.setY(this->_dir.getY() + turnFactor);
+	if (this->_pos.getY() > this->_ruleset->getMaxY())
+		this->_dir.setY(this->_dir.getY() - turnFactor);
 }
 
 void	Boid::_limitSpeed(void)
 {
 	double	speed = this->_dir.getVel();
 
-	if (speed > BOID_SPEEDLIMIT)
-		this->_dir = (this->_dir / speed) * BOID_SPEEDLIMIT;
+	if (speed > this->_ruleset->getSpeedL())
+		this->_dir = (this->_dir / speed) * this->_ruleset->getSpeedL();
 }
 
 void	Boid::_baseRules(void)
@@ -130,11 +139,11 @@ void	Boid::_baseRules(void)
 			Coord const &	neighPos = this->_flock->getPos(i);
 			double			dist = this->_pos.getDist(neighPos);
 
-			if (dist < BOID_MINDIST)
+			if (dist < this->_ruleset->getMinD())
 			{
 				avoid += (this->_pos - neighPos);
 			}
-			if (dist < BOID_VIEWRANGE)
+			if (dist < this->_ruleset->getViewR())
 			{
 				avgPos += neighPos;
 				avgDir += this->_flock->getDir(i);
@@ -145,11 +154,11 @@ void	Boid::_baseRules(void)
 	if (nbNear)
 	{
 		avgPos /= nbNear;
-		this->_dir += ((avgPos - this->_pos) * BOID_CENTERINGFACTOR);
+		this->_dir += ((avgPos - this->_pos) * this->_ruleset->getCenter());
 		avgDir /= nbNear;
-		this->_dir += ((avgDir - this->_dir) * BOID_MATCHINGFACTOR);
+		this->_dir += ((avgDir - this->_dir) * this->_ruleset->getMatch());
 	}
-	this->_dir += (avoid * BOID_AVOIDFACTOR);
+	this->_dir += (avoid * this->_ruleset->getAvoid());
 }
 
 void	Boid::update(void)
@@ -163,20 +172,6 @@ void	Boid::update(void)
 void	Boid::_applyDir(void)
 {
 	this->_pos += this->_dir;
-}
-
-void	Boid::render(SDL_Renderer *ren) const
-{
-	SDL_Rect		rect;
-
-	if (!ren)
-		return;
-
-	rect.x = this->_pos.getX();
-	rect.y = this->_pos.getY();
-	rect.h = BS_HG;
-	rect.w = BS_WD;
-	SDL_RenderFillRect(ren, &rect);
 }
 
 void	boidThreadUpdate(int threadId, Boid *boid)

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 12:27:05 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:44:22 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,40 @@
 #include "Boid.hpp"
 #include "Flock.hpp"
 #include "utils.hpp"
-#include "conf.hpp"
+#include "Setting.hpp"
 #include <SDL2/SDL.h>
 
 ctpl::thread_pool	g_thPool;
 Setting				g_set;
 
-int main(void)
+void	init(void)
 {
-	Scene				sc;
-	SDL_Event			event;
-	Sky					sky;
-
-	g_thPool.resize(4);
 	g_set.loadFile(".conf");
 	if (g_set.getSetBool("print_settings"))
 		std::cout << g_set << std::endl;
+	if (g_set.getSetBool("force_nb_thread"))
+		g_thPool.resize(g_set.getSetInt("nb_thread"));
+	else
+		g_thPool.resize(std::thread::hardware_concurrency());
+}
+
+int main(void)
+{
+	init();
+
+	Scene				sc;
+	SDL_Event			event;
+	Sky					sky;
 
 	sky.addFlock(500, 255, 0, 0);
 	sky.addFlock(300, 0, 255, 0);
 	sky.addFlock(150);
 
-	//for(int i = 0; i < 1000; i++)
+//	for(int i = 0; i < 1000; i++)
 	for(;;)
 	{
 		sky.update();
-		sc.render(sky);
+		sc.render(&sky);
 		SDL_PollEvent(&event);
 		if (event.type == SDL_QUIT)
 			break;
@@ -55,7 +63,7 @@ int main(void)
 		}
 	}
 	
-	if (SHOW_AVGFPSATEND)
+	if (g_set.getSetBool("debug_fps_atexit"))
 		std::cout << "AvgFps: " << sc.getAvgFps() << std::endl;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 17:05:04 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:56:35 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ Flock & Flock::operator=(Flock const & rhs)
 	this->_size = rhs._size;
 	this->_boids = rhs._boids;
 	this->setColor(rhs._color);
+	this->ruleset = rhs.ruleset;
 	return *this;
 }
 
@@ -80,11 +81,13 @@ Coord const &	Flock::getDir(size_t id) const
 	return this->_boids[id]->getDir();
 }
 
-Boid &	Flock::getBoid(size_t id) 
+Boid*	Flock::getBoid(size_t id)
 {
-	if (id >= this->_size)
-		throw std::exception();
-	return *(this->_boids[id]);
+	while (id >= this->_size)
+		id -= this->_size;
+	while (id < 0)
+		id = this->_size + id;
+	return this->_boids[id];
 }
 
 Boid const &	Flock::getCBoid(size_t id) const
@@ -92,6 +95,12 @@ Boid const &	Flock::getCBoid(size_t id) const
 	if (id >= this->_size)
 		throw std::exception();
 	return *(this->_boids[id]);
+}
+
+
+SDL_Color const &	Flock::getColor(void) const
+{
+	return this->_color;
 }
 
 void	Flock::setColor(Uint8 r, Uint8 g, Uint8 b)
@@ -149,15 +158,6 @@ void	Flock::update(void)
 		for (size_t i = 0; i < ftr.size() && !singleThread; i++)
 			ftr[i].wait();
 	}
-}
-
-void	Flock::render(SDL_Renderer *ren) const
-{
-	if (!ren)
-		return;
-	SDL_SetRenderDrawColor(ren, this->_color.r, this->_color.g, this->_color.b, 0);
-	for (size_t i = 0; i < this->_size; i++)
-		this->_boids[i]->render(ren);
 }
 
 void	flockThreadUpdate(int threadId, Flock *flock)

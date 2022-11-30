@@ -6,13 +6,12 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 17:13:19 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:36:00 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sky.hpp"
 #include "utils.hpp"
-#include "conf.hpp"
 
 Sky::Sky(void)
 {
@@ -64,7 +63,7 @@ void	Sky::addFlock(size_t size, SDL_Color const & color)
 
 void	Sky::_randomizeFlock(Flock & flock)
 {
-	flock.randomizePos(DFLT_SCWD - BS_WD, DFLT_SCHG - BS_HG);
+	flock.randomizePos(flock.ruleset.getMaxX(), flock.ruleset.getMaxY());
 	flock.randomizeDir(10., 10.);
 }
 
@@ -74,11 +73,6 @@ void	Sky::delFlock(int id)
 		id = this->_flocks.size() + id;
 	if (id >= 0 && id < static_cast<int>(this->_flocks.size()))
 		this->_flocks.erase(this->_flocks.begin() + id);
-}
-
-size_t	Sky::size(void) const
-{
-	return this->_flocks.size();
 }
 
 void	Sky::update(void)
@@ -98,12 +92,4 @@ void	Sky::update(void)
 		for (size_t i = 0; i < ftr.size(); i++)
 			ftr[i].wait();
 	}
-}
-
-void	Sky::render(SDL_Renderer *ren) const
-{
-	if (!ren)
-		return ;
-	for (size_t i = 0; i < this->_flocks.size(); i++)
-		this->_flocks[i]->render(ren);
 }

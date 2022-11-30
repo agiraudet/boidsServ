@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:47:23 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/28 15:10:50 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 15:22:51 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "Timer.hpp"
 # include "Sky.hpp"
 # include "Flock.hpp"
+# include "Boid.hpp"
 # include <SDL2/SDL.h>
 
 class	Scene
@@ -29,13 +30,15 @@ class	Scene
 		
 		Scene & operator=(Scene const & rhs);
 
-		void	render(Sky const & sky);
+		void	render(Sky *sky);
 		double	getAvgFps(void) const;
 
 	private:
 
 		void			_initSdl(void);
-		void			_renderSingleBoid(Boid const & boid);
+		void			_render(Sky *sky);
+		void			_render(Flock *flock);
+		void			_render(Boid *boid);
 
 		int				_scWd;
 		int				_scHg;

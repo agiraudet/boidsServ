@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:03:01 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 12:27:48 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/11/30 14:56:41 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FLOCK_HPP
 
 # include "Setting.hpp"
+# include "RuleSet.hpp"
 # include "Boid.hpp"
 # include <vector>
 # include <iostream>
@@ -33,15 +34,17 @@ class	Flock
 		size_t			size(void) const;
 		void			setColor(Uint8 r, Uint8 g, Uint8 b);
 		void			setColor(SDL_Color const & color);
+		SDL_Color const &	getColor(void) const;
 		Coord const &	getPos(size_t id) const;
 		Coord const &	getDir(size_t id) const;
-		Boid &	getBoid(size_t id);
+		Boid*			getBoid(size_t id);
 		Boid const &	getCBoid(size_t id) const;
 		void			randomizePos(double const & maxX, double const & maxY);
 		void			randomizeDir(double const & maxX, double const & maxY);
 		void			randomizeColor(void);
 		void			update(void);
-		void			render(SDL_Renderer *ren) const;
+
+		RuleSet			ruleset;
 
 	private:
 

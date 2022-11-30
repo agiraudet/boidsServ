@@ -6,7 +6,7 @@
 #    By: mbenabbo <mbenabbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/11/29 17:15:39 by agiraude         ###   ########.fr        #
+#    Updated: 2022/11/30 13:50:01 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS		:=	main.cpp \
 				Boid.cpp \
 				Coord.cpp \
 				Flock.cpp \
+				RuleSet.cpp \
 				Setting.cpp \
 				Scene.cpp \
 				Sky.cpp \
@@ -33,7 +34,7 @@ INC_DIRS	:=	./includes
 
 INC_FLAGS	:=	$(addprefix -I, $(INC_DIRS))
 
-CXXFLAGS	:=	-MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -g $(INC_FLAGS)
+CXXFLAGS	:=	-MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-private-field -g $(INC_FLAGS)
 
 CXX			:=	clang++
 
