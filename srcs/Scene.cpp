@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 15:41:48 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:54:37 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	Scene::_initValues(void)
 	this->_maxFps = g_set.getSetInt("fps_max");
 	this->_win = NULL;
 	this->_ren = NULL;
+	this->_loopFnct = NULL;
+	this->_inputFnct = NULL;
 }
 
 void	Scene::_initSdl(void)
@@ -167,6 +169,16 @@ void	Scene::reloadConf(std::string const & confFile)
 	this->reload();
 }
 
+void	Scene::setLoopFnct(void (*loopFnct)(Sky & sky))
+{
+	this->_loopFnct = loopFnct;
+}
+
+void	Scene::setInputFnct(void (*inputFnct)(Sky & sky, int key))
+{
+	this->_inputFnct = inputFnct;
+}
+
 void	Scene::mainLoop(Sky& sky)
 {
 	SDL_Event	event;
@@ -175,24 +187,19 @@ void	Scene::mainLoop(Sky& sky)
 	for (int i = 0; i != nbCycle; i++)
 	{
 		sky.update();
+
+		if (this->_loopFnct != NULL)
+			this->_loopFnct(sky);
 		this->render(&sky);
 		SDL_PollEvent(&event);
 		if (event.type == SDL_QUIT)
 			break;
 		else if (event.type == SDL_KEYDOWN)
 		{
-			switch (event.key.keysym.sym)
-			{
-				case SDLK_q:
-					i = nbCycle - 1;
-					break;
-				case SDLK_a:
-					sky.addFlock(randNb(50, 500));
-					break;
-				case SDLK_s:
-					sky.delFlock(-1);
-					break;
-			}
+			if (this->_inputFnct != NULL)
+				this->_inputFnct(sky, event.key.keysym.sym);
+			if (event.key.keysym.sym == SDLK_q)
+				break;
 		}
 	}
 	if (g_set.getSetBool("debug_fps_atexit"))

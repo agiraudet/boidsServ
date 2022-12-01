@@ -11,6 +11,16 @@ Currently, only three keyboard inputs are used as realtime-controls:
 * __[A]__ Create a new flock off boids. Number and position are randoms, with numbers between 50 ans 500.
 * __[S]__ Delete the mmost recently created flock.
 * __[Q]__ Exit the program.
+On input, the Scene object will call the function pointed to by the Scene::setInputFnct() function. Change it to change controls (except [Q], currently hard-coded). Scene::setInputFnct() need to be passed a pointeur to a function with this prototype:
+```
+void  inputExample(Sky & sky, int key);
+```
+When called, this function will received the Sky managed by the Scene object, and the key symbol, as defined by the "KeyCode" field by the SDL. [See more](https://wiki.libsdl.org/SDL2/SDL_Keycode)
+You can also defined a function to be called at each new cycle, with this kind of prototype:
+```
+void  loopExample(Sky & sky);
+```
+This is mainly used to gather informations about the current state of the simulation. It might later gain an option to only be called once ever N cycle. We'll see.
 
 ## Dependecies
 * [SLD2](https://www.libsdl.org/) is used for all video rendering, and input management.

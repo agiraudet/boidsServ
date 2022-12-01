@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:47:23 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 13:06:11 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:59:25 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ class	Scene
 		double	getAvgFps(void) const;
 		void	reload(void);
 		void	reloadConf(std::string const & confFile);
+		void	setLoopFnct(void (*loopFnct)(Sky & sky));
+		void	setInputFnct(void (*inputFnct)(Sky & sky, int key));
 
 	private:
 
@@ -52,6 +54,8 @@ class	Scene
 		Timer			_timer;
 		SDL_Window*		_win;
 		SDL_Renderer*	_ren;
+		void			(*_loopFnct)(Sky & sky);
+		void			(*_inputFnct)(Sky & sky, int key);
 
 };
 #endif
