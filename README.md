@@ -21,14 +21,14 @@ The Sky class need to be instancied only once. It will manages all the flocks of
 Each Flock class holds N boids.
 Currently, each Flock just ignore each other, but that will change in the future.
 ```
-                  +-----+
-                  | SKY |
-                  +-----+
-                     |
-       +-------------+-------------+
-       |             |             |
-  +---------+   +---------+   +---------+
-  | Flock 1 |   | Flock 2 |   | Flock 3 |
+                  +-----+                       +-------+
+                  | SKY |-------------------+   | SCENE |
+                  +-----+                   |   +-------+
+                     |                      |       |
+       +-------------+-------------+        |   +-------+
+       |             |             |        +-->|  SDL  |
+  +---------+   +---------+   +---------+       |RENDER |
+  | Flock 1 |   | Flock 2 |   | Flock 3 |       +-------+
   +---------+   +---------+   +---------+
     |             |             |
     +-[Boid1]     +-[Boid1]     +-[Boid1]
