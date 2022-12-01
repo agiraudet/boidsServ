@@ -6,12 +6,11 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 13:25:01 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 14:57:20 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sky.hpp"
-#include "utils.hpp"
 
 Sky::Sky(void)
 {

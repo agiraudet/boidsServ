@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 13:11:08 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 15:41:48 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,3 +198,4 @@ void	Scene::mainLoop(Sky& sky)
 	if (g_set.getSetBool("debug_fps_atexit"))
 		std::cout << "AvgFps: " << this->getAvgFps() << std::endl;
 }
+

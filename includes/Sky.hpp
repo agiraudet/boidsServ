@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:22:43 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 13:24:25 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 14:57:11 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <SDL2/SDL.h>
 # include "Flock.hpp"
+# include "utils.hpp"
 
 class	Sky
 {
@@ -41,11 +42,7 @@ class	Sky
 		{
 			if (this->_flocks.size() == 0)
 				return 0;
-			while (id < 0)
-				id = this->_flocks.size() + id;
-			if (id >= static_cast<long>(this->_flocks.size()))
-				return 0;
-			return this->_flocks[id];
+			return this->_flocks[loopIndex(id, static_cast<int>(this->_flocks.size()))];
 		}
 
 	private:

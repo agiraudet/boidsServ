@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 10:36:38 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 15:08:33 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ Flock & Flock::operator=(Flock const & rhs)
 	return *this;
 }
 
+ABoid &	Flock::operator[](int i)
+{
+	return *(this->_boids[loopIndex(i, static_cast<int>(this->_boids.size()))]);
+}
+
 void	Flock::_init(std::string type)
 {
 	for (size_t i = 0; i < this->_size; i++)
@@ -123,6 +128,14 @@ ABoid const &	Flock::getCBoid(size_t id) const
 	if (id >= this->_size)
 		throw std::exception();
 	return *(this->_boids[id]);
+}
+
+void	Flock::getAvgPos(Coord & pos) const
+{
+	size_t	i = 0;
+	for (; i < this->_boids.size(); i++)
+		pos += this->_boids[i]->getPos();
+	pos /= i;
 }
 
 

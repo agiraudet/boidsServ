@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:03:01 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 10:36:07 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 15:06:34 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ class	Flock
 		~Flock(void);
 		
 		Flock & operator=(Flock const & rhs);
+		ABoid &	operator[](int i);
 
 		size_t			size(void) const;
 		void			setRuleset(RuleSet const & ruleset);
@@ -44,6 +45,7 @@ class	Flock
 		Coord const &	getDir(size_t id) const;
 		ABoid*			getBoid(size_t id);
 		ABoid const &	getCBoid(size_t id) const;
+		void			getAvgPos(Coord & pos) const;
 		void			randomizePos(void);
 		void			randomizePos(double const & maxX, double const & maxY);
 		void			randomizeDir(double const & maxX, double const & maxY);
