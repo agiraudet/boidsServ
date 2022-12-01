@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Boid.hpp                                           :+:      :+:    :+:   */
+/*   ABoid.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:54:55 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 14:45:21 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 10:27:43 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,35 @@
 
 # include "Coord.hpp"
 # include "RuleSet.hpp"
+# include "Flock.hpp"
 # include <iostream>
 # include <vector>
 
-class	Flock;
 
-class	Boid
+class	ABoid
 {
 	public:
-
-		Boid(void);
-		Boid(unsigned int id);
-		Boid(unsigned int id, Flock *flock);
-		Boid(unsigned int id, Coord pos);
-		Boid(unsigned int id, Coord pos, Coord dir);
-		Boid(Boid const & src);
-		~Boid(void);
+		ABoid(void);
+		ABoid(unsigned int id);
+		ABoid(unsigned int id, Flock *flock);
+		ABoid(ABoid const & src);
+		virtual ~ABoid(void);
 		
-		Boid & operator=(Boid const & rhs);
-
-		unsigned int	getId(void) const;
-		void			setId(unsigned int id);
-		Coord const &	getPos(void) const;
-		void			setPos(Coord const & pos);
-		Coord const &	getDir(void) const;
-		void			setDir(Coord const & dir);
-		void			setFlock(Flock *flock);
+		ABoid & operator=(ABoid const & rhs);
 		void			update(void);
 
-	private:
+	public:
+		inline unsigned int		getId(void) const			{return this->_id;}
+		inline void				setId(unsigned int id)		{this->_id = id;}
+		inline Coord const &	getPos(void) const			{return this->_pos;}
+		inline void				setPos(Coord const & pos)	{this->_pos = pos;}
+		inline Coord const &	getDir(void) const			{return this->_dir;}
+		inline void				setDir(Coord const & dir)	{this->_dir = dir;}
+		inline void				setFlock(Flock *flock)		
+		{this->_flock = flock; this->_ruleset = (flock ? &(flock->ruleset) : NULL);}
 
-		void			_baseRules(void);
+	protected:
+		virtual void	_baseRules(void) = 0;
 		void			_applyDir(void);
 		void			_keepWithinBounds(void);
 		void			_limitSpeed(void);
@@ -57,7 +55,7 @@ class	Boid
 		RuleSet			*_ruleset;
 };
 
-void			boidThreadUpdate(int threadId, Boid *boid);
-std::ostream &	operator<<(std::ostream & o, Boid const & rhs);
+void			boidThreadUpdate(int threadId, ABoid *boid);
+std::ostream &	operator<<(std::ostream & o, ABoid const & rhs);
 
 #endif

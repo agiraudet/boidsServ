@@ -6,33 +6,50 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 16:41:45 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 10:36:38 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Flock.hpp"
 #include "utils.hpp"
+#include "ABoid.hpp"
+#include "Basic.hpp"
+#include "Predator.hpp"
 #include <functional>
 
 Flock::Flock(void)
 : _size(0)
 {
 	this->randomizeColor();
-	this->_init();
+	this->_init("Basic");
 }
 
 Flock::Flock(size_t size)
 : _size(size)
 {
 	this->randomizeColor();
-	this->_init();
+	this->_init("Basic");
+}
+
+Flock::Flock(size_t size, std::string type)
+: _size(size)
+{
+	this->randomizeColor();
+	this->_init(type);
 }
 
 Flock::Flock(size_t size, SDL_Color const & color)
 : _size(size)
 {
 	this->setColor(color);
-	this->_init();
+	this->_init("Basic");
+}
+
+Flock::Flock(size_t size, SDL_Color const & color, std::string type)
+: _size(size)
+{
+	this->setColor(color);
+	this->_init(type);
 }
 
 Flock::Flock(Flock const & src)
@@ -57,11 +74,17 @@ Flock & Flock::operator=(Flock const & rhs)
 	return *this;
 }
 
-void	Flock::_init(void)
+void	Flock::_init(std::string type)
 {
 	for (size_t i = 0; i < this->_size; i++)
 	{
-		Boid	*newBoid = new Boid(i, this);
+		ABoid	*newBoid;
+		if (type.compare("Basic") == 0)
+			newBoid = new Basic(i, this);
+		else if (type.compare("Predator") == 0)
+			newBoid = new Predator(i, this);
+		else
+			newBoid = new Basic(i, this);
 		this->_boids.push_back(newBoid);
 	}
 }
@@ -69,6 +92,11 @@ void	Flock::_init(void)
 size_t	Flock::size(void) const
 {
 	return this->_size;
+}
+
+void	Flock::setRuleset(RuleSet const & ruleset)
+{
+	this->ruleset = ruleset;
 }
 
 Coord const &	Flock::getPos(size_t id) const
@@ -81,7 +109,7 @@ Coord const &	Flock::getDir(size_t id) const
 	return this->_boids[id]->getDir();
 }
 
-Boid*	Flock::getBoid(size_t id)
+ABoid*	Flock::getBoid(size_t id)
 {
 	while (id >= this->_size)
 		id -= this->_size;
@@ -90,7 +118,7 @@ Boid*	Flock::getBoid(size_t id)
 	return this->_boids[id];
 }
 
-Boid const &	Flock::getCBoid(size_t id) const
+ABoid const &	Flock::getCBoid(size_t id) const
 {
 	if (id >= this->_size)
 		throw std::exception();

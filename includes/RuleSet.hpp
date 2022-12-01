@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 12:05:44 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 14:12:55 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 09:32:44 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ class	RuleSet
 		RuleSet(void);
 		RuleSet(double c, double m, double a, double t, double md, double vr,
 				double sl, int nX, int nY, int xX, int xY);
+		RuleSet(double c, double m, double a, double t, double md, double vr,
+				double sl);
 		RuleSet(RuleSet const & src);
 		~RuleSet(void);
 		RuleSet & operator=(RuleSet const & rhs);

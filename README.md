@@ -35,9 +35,40 @@ Currently, each Flock just ignore each other, but that will change in the future
     +-[Boid4]     +-[Boid4]     +-[Boid4]  
 ```
 
+## Exemple main.cpp
+First thing needed is an instance of a Scene object (and only one !). If the constructor is givent a configuration file as parameter, it will try and use it as settings. Otherwise, default values are used.
+You can then create a Sky object, and add/remove flocks to it as you see fit. Then, using Scene::mainLoop(Sky& sky), launch you simulation.
+To modify controls, look at Scene::mainLoop() again.
+```
+#include "Scene.hpp"
+#include "Sky.hpp"
+
+int main(void)
+{
+  //Create a new Scene, using .conf as a config file. Must be done first.
+  Scene sc(".conf");
+
+  //Create a new Sky, which will hold ours Flocks of Boids.
+  Sky sky;
+
+  //Add a Flock of 500 Basic Boids (of random color) to our sky.
+  sky.addFlock(500);
+
+  //Add a Flock of 50 Predator green Boids
+  sky.addFlock(50, "Predator", 0, 255, 0);
+
+  //Apply a new RuleSet to the last Flock of the Sky (aka the predator's one).
+  sky[-1].setRuleset(RuleSet(0.01, 0.1, 0.1, 1.0, 15.0, 30.0, 5.0));
+
+  //Finally, launch the simulation.
+  sc.mainLoop(sky);
+
+  return 0;
+}
+```
+
 ## TODO next
 * Get a better visual for the boids.
 * Create different type of boids with differents ruleset
 * Allow Flocks to see each other (and thus interract)
 * Create a proper control system (might be either via a GUI or a command prompt)
-* Implement an easy way of changing differents flocks rulesets

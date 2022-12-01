@@ -6,7 +6,7 @@
 #    By: mbenabbo <mbenabbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/11/30 13:50:01 by agiraude         ###   ########.fr        #
+#    Updated: 2022/12/01 10:34:10 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,9 @@ BUILD_DIR	:=	./build
 SRCS_DIR	:=	./srcs
 
 SRCS		:=	main.cpp \
-				Boid.cpp \
+				boids/ABoid.cpp \
+				boids/Basic.cpp \
+				boids/Predator.cpp\
 				Coord.cpp \
 				Flock.cpp \
 				RuleSet.cpp \
@@ -43,7 +45,7 @@ $(NAME): $(OBJS)
 
 
 $(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)/boids
 
 $(BUILD_DIR)/%.o: $(SRCS_DIR)/%.cpp | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@ 

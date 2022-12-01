@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:02:26 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 16:22:16 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:00:57 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@
 Setting::Setting(void)
 {
 	this->_dfltValues();
+	if (this->getSetBool("print_settings"))
+	{
+		std::cout << "DEFAULT SETTINGS LOADED:" << std::endl;
+		std::cout << *this;
+	}
 }
 
 Setting::Setting(std::string const & confFile)
 {
-	if (!this->loadFile(confFile))
-		this->_dfltValues();
+	this->_dfltValues();
+	this->loadFile(confFile);
 }
 
 Setting::Setting(Setting const & src)
@@ -50,7 +55,7 @@ bool	Setting::loadFile(std::string const & confFile)
 	file.open(confFile);
 	if (!file.is_open())
 	{
-		std::cerr << "Cannot open " << confFile << std::endl;
+		std::cerr << "SETTINGS: Cannot open \"" << confFile << "\"" << std::endl;
 		return false;
 	}
 
@@ -88,6 +93,11 @@ bool	Setting::loadFile(std::string const & confFile)
 		}
 	}
 	file.close();
+	if (this->getSetBool("print_settings"))
+	{
+		std::cout << "SETTINGS LOADED FROM " << confFile << ":" << std::endl;
+		std::cout << *this;
+	}
 	return true;
 }
 
@@ -120,14 +130,25 @@ void	Setting::_dfltValues(void)
 	this->_intSet["screen_height"] = 480;
 	this->_intSet["screen_margin"] = 50;
 	this->_intSet["screen_width"] = 720;
-	this->_boolSet["cap_fps"] = false;
+	this->_boolSet["cap_fps"] = true;
 	this->_boolSet["debug_fps"] = false;
-	this->_boolSet["debug_fps_atexit"] = true;
+	this->_boolSet["debug_fps_atexit"] = false;
 	this->_boolSet["debug_thread"] = false;
 	this->_boolSet["force_nb_thread"] = false;
 	this->_boolSet["fullscreen"] = false;
 	this->_boolSet["multithreading"] = true;
 	this->_boolSet["print_settings"] = false;
+}
+
+bool	Setting::setExist(std::string const & setting) const
+{
+	if (this->_intSet.find(setting) != this->_intSet.end())
+		return true;
+	else if (this->_dblSet.find(setting) != this->_dblSet.end())
+		return true;
+	if (this->_boolSet.find(setting) != this->_boolSet.end())
+		return true;
+	return false;
 }
 
 int Setting::getSetInt(std::string const & setting) const

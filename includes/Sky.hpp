@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:22:43 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 14:55:44 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:24:25 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ class	Sky
 		Sky(Sky const & src);
 		~Sky(void);
 		
-		Sky & operator=(Sky const & rhs);
+		Sky &	operator=(Sky const & rhs);
+		Flock &	operator[](int i);
 
 		void	addFlock(size_t size);
 		void	addFlock(size_t size, Uint8 r, Uint8 g, Uint8 b);
+		void	addFlock(size_t size, std::string type, Uint8 r, Uint8 g, Uint8 b);
 		void	addFlock(size_t size, SDL_Color const & color);
+		void	addFlock(Flock& flock);
 		void	delFlock(int id);
 		void	update(void);
 	

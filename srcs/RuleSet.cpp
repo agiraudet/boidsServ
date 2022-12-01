@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 12:33:26 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 15:28:14 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 09:32:17 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@
 RuleSet::RuleSet(void)
 : _centering(0.005), _matching(0.05), _avoiding(0.05), _turning(1.0),
 _minDist(10.0), _viewRange(75.0), _speedLimit(10.0)
+{
+	int	margin = g_set.getSetInt("screen_margin");
+
+	this->_setBorders(margin, margin,
+			g_set.getSetInt("screen_width") - margin,
+			g_set.getSetInt("screen_height") - margin);
+}
+
+RuleSet::RuleSet(double c, double m, double a, double t, double md, double vr,
+		double sl)
+: _centering(c), _matching(m), _avoiding(a), _turning(t), _minDist(md),
+_viewRange(vr), _speedLimit(sl)
 {
 	int	margin = g_set.getSetInt("screen_margin");
 
@@ -52,6 +64,10 @@ RuleSet & RuleSet::operator=(RuleSet const & rhs)
 	this->_minDist = rhs._minDist;
 	this->_viewRange = rhs._viewRange;
 	this->_speedLimit = rhs._speedLimit;
+	this->_minX = rhs._minX;
+	this->_minY = rhs._minY;
+	this->_maxX = rhs._maxX;
+	this->_maxY = rhs._maxY;
 	return *this;
 }
 

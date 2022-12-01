@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:29:38 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/29 14:01:21 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 12:36:41 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class	Setting
 		Setting & operator=(Setting const & rhs);
 
 		bool	loadFile(std::string const & confFile);
+		bool	setExist(std::string const & setting) const;
 		int		getSetInt(std::string const & setting) const;
 		double	getSetDbl(std::string const & setting) const;
 		bool	getSetBool(std::string const & setting) const;

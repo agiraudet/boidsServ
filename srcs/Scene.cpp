@@ -6,30 +6,34 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 15:45:55 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:11:08 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Scene.hpp"
 #include "Setting.hpp"
+#include "cptl_stl.h"
+#include "utils.hpp"
 #include <SDL2/SDL.h>
 #include <exception>
 
+ctpl::thread_pool	g_thPool;
+Setting				g_set;
+
 Scene::Scene(void)
-: _scWd(g_set.getSetInt("screen_width")),
-_scHg(g_set.getSetInt("screen_height")),
-_fullSc(g_set.getSetBool("fullscreen")),
-_maxFps(g_set.getSetInt("fps_max")), _win(NULL), _ren(NULL)
 {
 	std::srand(time(NULL));
+	this->_initValues();
+	this->_initThreads();
 	this->_initSdl();
 }
 
-Scene::Scene(int scWd, int scHg, bool fullSc)
-: _scWd(scWd), _scHg(scHg), _fullSc(g_set.getSetBool("fullscreen")),
-_maxFps(g_set.getSetInt("fps_max")), _win(NULL), _ren(NULL)
+Scene::Scene(std::string const & confFile)
 {
 	std::srand(time(NULL));
+	g_set.loadFile(confFile);
+	this->_initValues();
+	this->_initThreads();
 	this->_initSdl();
 }
 
@@ -40,8 +44,10 @@ Scene::Scene(Scene const & src)
 
 Scene::~Scene(void)
 {
-	SDL_DestroyRenderer(this->_ren);
-	SDL_DestroyWindow(this->_win);
+	if (this->_ren)
+		SDL_DestroyRenderer(this->_ren);
+	if (this->_win)
+		SDL_DestroyWindow(this->_win);
 	SDL_Quit();
 }
 
@@ -52,6 +58,16 @@ Scene & Scene::operator=(Scene const & rhs)
 	this->_win = rhs._win;
 	this->_ren = rhs._ren;
 	return *this;
+}
+
+void	Scene::_initValues(void)
+{
+	this->_scWd = g_set.getSetInt("screen_width");
+	this->_scHg = g_set.getSetInt("screen_height");
+	this->_fullSc = g_set.getSetBool("fullscreen");
+	this->_maxFps = g_set.getSetInt("fps_max");
+	this->_win = NULL;
+	this->_ren = NULL;
 }
 
 void	Scene::_initSdl(void)
@@ -71,6 +87,17 @@ void	Scene::_initSdl(void)
 		SDL_Quit();
 		throw std::exception();
 	}
+}
+
+void	Scene::_initThreads(void)
+{
+	int	nbThread = std::thread::hardware_concurrency();
+
+	if (g_set.getSetBool("force_nb_thread") && g_set.setExist("nb_thread"))
+		nbThread = g_set.getSetInt("nb_thread");
+	g_thPool.resize(nbThread);
+	if (g_set.getSetBool("debug_thread"))
+		std::cout << "ThreadPool size: " << nbThread << std::endl;
 }
 
 void	Scene::_render(Sky *sky) 
@@ -94,7 +121,7 @@ void	Scene::_render(Flock *flock)
 		this->_render(flock->getBoid(i));
 }
 
-void	Scene::_render(Boid *boid) 
+void	Scene::_render(ABoid *boid) 
 {
 	static int	boidHeight = g_set.getSetInt("boid_height");
 	static int	boidWidth = g_set.getSetInt("boid_width");
@@ -120,4 +147,54 @@ void	Scene::render(Sky *sky)
 double	Scene::getAvgFps(void) const
 {
 	return this->_timer.getAvgFps();
+}
+
+void	Scene::reload(void)
+{
+	if (this->_ren)
+		SDL_DestroyRenderer(this->_ren);
+	if (this->_win)
+		SDL_DestroyWindow(this->_win);
+	SDL_Quit();
+	this->_initValues();
+	this->_initThreads();
+	this->_initSdl();
+}
+
+void	Scene::reloadConf(std::string const & confFile)
+{
+	g_set.loadFile(confFile);
+	this->reload();
+}
+
+void	Scene::mainLoop(Sky& sky)
+{
+	SDL_Event	event;
+	int			nbCycle = g_set.getSetInt("nb_cycle");
+
+	for (int i = 0; i != nbCycle; i++)
+	{
+		sky.update();
+		this->render(&sky);
+		SDL_PollEvent(&event);
+		if (event.type == SDL_QUIT)
+			break;
+		else if (event.type == SDL_KEYDOWN)
+		{
+			switch (event.key.keysym.sym)
+			{
+				case SDLK_q:
+					i = nbCycle - 1;
+					break;
+				case SDLK_a:
+					sky.addFlock(randNb(50, 500));
+					break;
+				case SDLK_s:
+					sky.delFlock(-1);
+					break;
+			}
+		}
+	}
+	if (g_set.getSetBool("debug_fps_atexit"))
+		std::cout << "AvgFps: " << this->getAvgFps() << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/11/30 16:42:30 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:25:01 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ Sky & Sky::operator=(Sky const & rhs)
 	this->_flocks = rhs._flocks;
 	return *this;
 }
+
+Flock &	Sky::operator[](int i)
+{
+	return *(this->_flocks[loopIndex(i, static_cast<int>(this->_flocks.size()))]);
+}
+
 void	Sky::addFlock(size_t size)
 {
 	Flock	*newFlock = new Flock(size);
@@ -53,11 +59,27 @@ void	Sky::addFlock(size_t size, Uint8 r, Uint8 g, Uint8 b)
 	this->_flocks.push_back(newFlock);
 }
 
+void	Sky::addFlock(size_t size, std::string type, Uint8 r, Uint8 g, Uint8 b)
+{
+	Flock	*newFlock = new Flock(size, type);
+
+	this->_randomizeFlock(*newFlock);
+	newFlock->setColor(r, g, b);
+	this->_flocks.push_back(newFlock);
+}
+
 void	Sky::addFlock(size_t size, SDL_Color const & color)
 {
 	Flock	*newFlock = new Flock(size, color);
 
 	this->_randomizeFlock(*newFlock);
+	this->_flocks.push_back(newFlock);
+}
+
+void	Sky::addFlock(Flock& flock)
+{
+	Flock	*newFlock = new Flock(flock);
+
 	this->_flocks.push_back(newFlock);
 }
 
