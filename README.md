@@ -1,3 +1,5 @@
+![](https://github.com/agiraudet/boidsServ/blob/main/.demo.gif)
+
 # boidsServ
 A C.W.Reynolds boid's implementation in C++ with realtime controls.
 
