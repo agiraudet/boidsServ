@@ -1,7 +1,7 @@
 build
-boids
 test
 .test
+Boids
 profiling
 .profiling
 audio
