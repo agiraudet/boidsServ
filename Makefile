@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbenabbo <mbenabbo@student.42.fr>          +#+  +:+       +#+         #
+#    By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/12/01 10:34:10 by agiraude         ###   ########.fr        #
+#    Updated: 2022/12/02 16:23:39 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRCS		:=	main.cpp \
 
 OBJS		:=	$(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 
-INC_DIRS	:=	./includes 
+INC_DIRS	:=	./includes \
+				./includes/boids
 
 INC_FLAGS	:=	$(addprefix -I, $(INC_DIRS))
 

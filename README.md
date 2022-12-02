@@ -16,6 +16,7 @@ On input, the Scene object will call the function pointed to by the Scene::setIn
 void  inputExample(Sky & sky, int key);
 ```
 When called, this function will received the Sky managed by the Scene object, and the key symbol, as defined by the "KeyCode" field by the SDL. [See more](https://wiki.libsdl.org/SDL2/SDL_Keycode)
+
 You can also defined a function to be called at each new cycle, with this kind of prototype:
 ```
 void  loopExample(Sky & sky);
