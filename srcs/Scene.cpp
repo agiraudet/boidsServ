@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 17:54:37 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/05 11:26:17 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,14 +169,16 @@ void	Scene::reloadConf(std::string const & confFile)
 	this->reload();
 }
 
-void	Scene::setLoopFnct(void (*loopFnct)(Sky & sky))
+void	Scene::setLoopFnct(void (*loopFnct)(void* arg), void* arg)
 {
 	this->_loopFnct = loopFnct;
+	this->_dataLoop = arg;
 }
 
-void	Scene::setInputFnct(void (*inputFnct)(Sky & sky, int key))
+void	Scene::setInputFnct(void (*inputFnct)(void* arg, int key), void* arg)
 {
 	this->_inputFnct = inputFnct;
+	this->_dataInput = arg;
 }
 
 void	Scene::mainLoop(Sky& sky)
@@ -189,7 +191,7 @@ void	Scene::mainLoop(Sky& sky)
 		sky.update();
 
 		if (this->_loopFnct != NULL)
-			this->_loopFnct(sky);
+			this->_loopFnct(this->_dataLoop);
 		this->render(&sky);
 		SDL_PollEvent(&event);
 		if (event.type == SDL_QUIT)
@@ -197,7 +199,7 @@ void	Scene::mainLoop(Sky& sky)
 		else if (event.type == SDL_KEYDOWN)
 		{
 			if (this->_inputFnct != NULL)
-				this->_inputFnct(sky, event.key.keysym.sym);
+				this->_inputFnct(this->_dataInput, event.key.keysym.sym);
 			if (event.key.keysym.sym == SDLK_q)
 				break;
 		}

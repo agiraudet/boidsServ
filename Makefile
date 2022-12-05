@@ -6,13 +6,13 @@
 #    By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/12/02 16:28:35 by agiraude         ###   ########.fr        #
+#    Updated: 2022/12/05 11:11:23 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	Boids
 
-DEPS		:=	-lSDL2 -lm
+DEPS		:=	-lSDL2 -lm -lstk -lasound
 
 BUILD_DIR	:=	./build
 
@@ -28,6 +28,7 @@ SRCS		:=	main.cpp \
 				Setting.cpp \
 				Scene.cpp \
 				Sky.cpp \
+				StkWrap.cpp \
 				Timer.cpp
 
 OBJS		:=	$(SRCS:%.cpp=$(BUILD_DIR)/%.o)
@@ -37,7 +38,7 @@ INC_DIRS	:=	./includes \
 
 INC_FLAGS	:=	$(addprefix -I, $(INC_DIRS))
 
-CXXFLAGS	:=	-MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-private-field -g $(INC_FLAGS)
+CXXFLAGS	:=	-MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-private-field -D __LINUX_ALSA__ -g $(INC_FLAGS)
 
 CXX			:=	clang++
 

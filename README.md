@@ -11,21 +11,24 @@ Currently, only three keyboard inputs are used as realtime-controls:
 * __[A]__ Create a new flock off boids. Number and position are randoms, with numbers between 50 ans 500.
 * __[S]__ Delete the mmost recently created flock.
 * __[Q]__ Exit the program.
-On input, the Scene object will call the function pointed to by the Scene::setInputFnct() function. Change it to change controls (except [Q], currently hard-coded). Scene::setInputFnct() need to be passed a pointeur to a function with this prototype:
+
+On input, the Scene object will call the function setup by the Scene::setInputFnct() hook. Change it to change controls (except [Q], currently hard-coded). Scene::setInputFnct() need to be passed a pointeur to a function with this prototype:
 ```
-void  inputExample(Sky & sky, int key);
+void  inputExample(void *arg, int key);
 ```
-When called, this function will received the Sky managed by the Scene object, and the key symbol, as defined by the "KeyCode" field by the SDL. [See more](https://wiki.libsdl.org/SDL2/SDL_Keycode)
+When called, this function will received the _arg_ pointer setup by the hook, and the key symbol, as defined by the "KeyCode" field by the SDL. [See more](https://wiki.libsdl.org/SDL2/SDL_Keycode)
 
 You can also defined a function to be called at each new cycle, with this kind of prototype:
 ```
-void  loopExample(Sky & sky);
+void  loopExample(void* arg);
 ```
-This is mainly used to gather informations about the current state of the simulation. It might later gain an option to only be called once ever N cycle. We'll see.
+This is done using the Scene::setLoopFnct() hook.
+This is mainly used to gather informations about the current state of the simulation/act upon it. It might later gain an option to only be called once ever N cycle. We'll see.
 
 ## Dependecies
 * [SLD2](https://www.libsdl.org/) is used for all video rendering, and input management.
 * [CPTL](https://github.com/vit-vit/CTPL) is used for threadPooling (but is already included in the code as a header).
+* [STK](https://ccrma.stanford.edu/software/stk/index.html) is used to managed everything sound related.
 
 ## Structure and how to use
 The Sky class need to be instancied only once. It will manages all the flocks of boids.

@@ -6,59 +6,84 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 18:14:10 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/05 11:39:12 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "StkWrap.hpp"
 #include "Scene.hpp"
 #include "Sky.hpp"
 
-void	loopExample(Sky & sky)
+//The Data struct is only use to make it easier to pass references to the
+//Scene input and loop hooks.
+struct	Data
 {
-	static	int	count = 0;
-	Coord	flockPos;
+	StkWrap&	stkWrap;
+	Sky&		sky;
 
-	if (count <= 0)
+	Data(StkWrap& wrap, Sky& sk) : stkWrap(wrap), sky(sk) {}
+};
+
+//Example of a fucntion called on each Scene loop, making sound.
+void	loopExample(void* arg)
+{
+	Data*		data = (Data*)arg;
+	Coord		flockPos;
+
+	if (data->sky.size())
 	{
-		if (sky.size())
-		{
-			sky[0].getAvgPos(flockPos);
-			std::cout << "First Flock average postion: " << flockPos << std::endl;
-		}
-		else
-		{
-			std::cout << "Not a single Flock in this Sky !" << std::endl;
-		}
-		count = 60;
-	}
-	else
-	{
-		count--;
+		data->sky[0].getAvgPos(flockPos);
+		double freqX = flockPos.getX() * 100. / static_cast<double>
+			(g_set.getSetInt("screen_width"));
+		double freqY = flockPos.getY() * 100. / static_cast<double>
+			(g_set.getSetInt("screen_height"));
+
+		stk::Voicer*	voic = data->stkWrap.getVoicer();
+		voic->noteOn(freqX, 50., 0);
+		voic->noteOn(freqY, 50., 1);
 	}
 }
 
-void	inputExample(Sky & sky, int key)
+//Example of a function called on each input, managing the Sky.
+void	inputExample(void* arg, int key)
 {
+	Data*	data = (Data*)arg;
+
 	switch (key)
 	{
 		case SDLK_a:
-			sky.addFlock(randNb(50, 500));
+			data->sky.addFlock(randNb(50, 500));
 			break;
 		case SDLK_s:
-			sky.delFlock(-1);
+			data->sky.delFlock(-1);
 			break;
 	}
 }
 
 int main(int argc, char **argv)
 {
+	//First, creating one (and only one) Scene object.
 	Scene	sc(".conf");
-	Sky		sky;
 
+	//Creating a sky, adding a single Flock to it.
+	Sky		sky;
 	sky.addFlock(500, 255, 0, 0);
 
-	sc.setLoopFnct(&loopExample);
-	sc.setInputFnct(&inputExample);
+	//Creating one (and only one) stkWrap. It's a class making it easier to use
+	//the stk::Voicer class it's wrapping.
+	StkWrap	wrap;
+	wrap.addInstru(BEETHREE, 0);
+	wrap.addInstru(BEETHREE, 1);
+
+	//Using our Data struct to old a reference to both the Sky and the STkWrap
+	Data	data(wrap, sky);
+
+	//Setting up the hooks.
+	sc.setLoopFnct(&loopExample, (void*)&data);
+	sc.setInputFnct(&inputExample, (void*)&data);
+
+	//Starting the Scene loop
 	sc.mainLoop(sky);
+
 	return (0);
 }
