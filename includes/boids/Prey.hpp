@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Predator.hpp                                       :+:      :+:    :+:   */
+/*   Prey.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 09:59:38 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/06 14:10:13 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 14:40:11 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PREDATOR_HPP
-# define PREDATOR_HPP
+#ifndef Prey_HPP
+# define Prey_HPP
 
 # include "ABoid.hpp"
 
-class	Predator : public ABoid
+class	Prey : public ABoid
 {
 	public:
 
-		Predator(unsigned int id, Flock& flock);
-		Predator(Predator const & src);
-		~Predator(void);
+		Prey(unsigned int id, Flock& flock);
+		Prey(Prey const & src);
+		~Prey(void);
 		
-		Predator & operator=(Predator const & rhs);
+		Prey & operator=(Prey const & rhs);
 
 	private:
-		Predator(void);
+		Prey(void);
 		void	_baseRules(void);
 };
 

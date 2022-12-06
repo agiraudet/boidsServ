@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:03:01 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/06 13:03:18 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 14:17:07 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ class	Flock
 		void			randomizePos(double const & maxX, double const & maxY);
 		void			randomizeDir(double const & maxX, double const & maxY);
 		void			randomizeColor(void);
+		void			setTarget(Flock& target);
+		Flock*			getTarget(void) const;
 		void			update(void);
 
 		RuleSet			ruleset;
@@ -59,6 +61,7 @@ class	Flock
 		std::vector<ABoid*>	_boids;
 		size_t				_size;
 		SDL_Color			_color;
+		Flock*				_target;
 };
 
 void			flockThreadUpdate(int threadId, Flock *flock);

@@ -2,7 +2,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Predator.cpp                                          :+:      :+:    :+:   */
+/*   Prey.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,20 +11,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Predator.hpp"
+#include "Prey.hpp"
 
-Predator::Predator(unsigned int id, Flock& flock) : ABoid(id, flock)
+Prey::Prey(unsigned int id, Flock& flock) : ABoid(id, flock)
 {
 }
 
-Predator::Predator(Predator const & src) : ABoid(src)
+Prey::Prey(Prey const & src) : ABoid(src)
 {
 	*this = src;
 }
 
-Predator::~Predator(void) {}
+Prey::~Prey(void) {}
 
-Predator & Predator::operator=(Predator const & rhs)
+Prey & Prey::operator=(Prey const & rhs)
 {
 	if (this == &rhs)
 		return *this;
@@ -36,7 +36,7 @@ Predator & Predator::operator=(Predator const & rhs)
 	return *this;
 }
 
-void	Predator::_baseRules(void)
+void	Prey::_baseRules(void)
 {
 	Coord			avgPos(0., 0.);
 	Coord			avoid(0., 0.);
@@ -81,15 +81,15 @@ void	Predator::_baseRules(void)
 	}
 	if (nbNear)
 	{
-		/* avgPos /= nbNear; */
-		/* this->_dir += ((avgPos - this->_pos) * this->_ruleset.getCenter()); */
+		avgPos /= nbNear;
+		this->_dir += ((avgPos - this->_pos) * this->_ruleset.getCenter());
 		avgDir /= nbNear;
 		this->_dir += ((avgDir - this->_dir) * this->_ruleset.getMatch());
 	}
 	if (nbTarget)
 	{
 		avgTarget /= nbTarget;
-		this->_dir += ((avgTarget - this->_pos) * this->_ruleset.getCenter() * 2.);
+		this->_dir -= ((avgTarget - this->_pos) * this->_ruleset.getCenter() * 2.);
 	}
 	this->_dir += (avoid * this->_ruleset.getAvoid());
 }

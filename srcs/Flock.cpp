@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/06 13:03:09 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 14:42:34 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ABoid.hpp"
 #include "Basic.hpp"
 #include "Predator.hpp"
+#include "Prey.hpp"
 #include <functional>
 
 Flock::Flock(void)
@@ -88,6 +89,8 @@ void	Flock::_init(std::string type)
 			newBoid = new Basic(i, *this);
 		else if (type.compare("Predator") == 0)
 			newBoid = new Predator(i, *this);
+		else if (type.compare("Prey") == 0)
+			newBoid = new Prey(i, *this);
 		else
 			newBoid = new Basic(i, *this);
 		this->_boids.push_back(newBoid);
@@ -170,6 +173,16 @@ void	Flock::randomizeColor(void)
 	this->_color.g = randNb(0, 255);
 	this->_color.b = randNb(0, 255);
 	this->_color.a = 0;
+}
+
+void	Flock::setTarget(Flock& target)
+{
+	this->_target = &target;
+}
+
+Flock*	Flock::getTarget(void) const
+{
+	return this->_target;
 }
 
 void	Flock::update(void)
