@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/06 14:42:34 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 14:55:38 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "utils.hpp"
 #include "ABoid.hpp"
 #include "Basic.hpp"
+#include "Goal.hpp"
 #include "Predator.hpp"
 #include "Prey.hpp"
 #include <functional>
@@ -91,6 +92,8 @@ void	Flock::_init(std::string type)
 			newBoid = new Predator(i, *this);
 		else if (type.compare("Prey") == 0)
 			newBoid = new Prey(i, *this);
+		else if (type.compare("Goal") == 0)
+			newBoid = new Goal(i, *this);
 		else
 			newBoid = new Basic(i, *this);
 		this->_boids.push_back(newBoid);

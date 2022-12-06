@@ -6,7 +6,7 @@
 #    By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/12/06 14:40:28 by agiraude         ###   ########.fr        #
+#    Updated: 2022/12/06 14:51:54 by agiraude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS_DIR	:=	./srcs
 SRCS		:=	main.cpp \
 				boids/ABoid.cpp \
 				boids/Basic.cpp \
+				boids/Goal.cpp \
 				boids/Predator.cpp\
 				boids/Prey.cpp \
 				Coord.cpp \
