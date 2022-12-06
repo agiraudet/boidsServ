@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:47:23 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/05 11:25:32 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:07:42 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class	Scene
 		
 		Scene & operator=(Scene const & rhs);
 
-		void	render(Sky *sky);
+		void	render(Sky const& sky);
 		void	mainLoop(Sky& sky);
 		double	getAvgFps(void) const;
 		void	reload(void);
@@ -43,9 +43,9 @@ class	Scene
 		void			_initValues(void);
 		void			_initSdl(void);
 		void			_initThreads(void);
-		void			_render(Sky *sky);
-		void			_render(Flock *flock);
-		void			_render(ABoid *boid);
+		void			_render(Sky const& sky);
+		void			_render(Flock const& flock);
+		void			_render(ABoid const& boid);
 
 		int				_scWd;
 		int				_scHg;

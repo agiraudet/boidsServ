@@ -6,22 +6,21 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:42:15 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/05 11:01:10 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/05 14:54:50 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STKWRAP_HPP
 # define STKWRAP_HPP
 
-# include "stk/BeeThree.h"
-# include "stk/Flute.h"
 # include "stk/RtAudio.h"
 # include "stk/Voicer.h"
 
 enum	e_instru
 {
 	BEETHREE,
-	FLUTE
+	FLUTE,
+	PERCFLUT
 };
 
 class	StkWrap

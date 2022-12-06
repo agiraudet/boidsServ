@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:39:48 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/05 11:26:17 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:07:57 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ Scene::Scene(void)
 
 Scene::Scene(std::string const & confFile)
 {
-	std::srand(time(NULL));
 	g_set.loadFile(confFile);
+	if (g_set.getSetBool("rand_seed") || !g_set.setExist("seed"))
+		std::srand(time(NULL));
+	else
+		std::srand(g_set.getSetInt("seed"));
 	this->_initValues();
 	this->_initThreads();
 	this->_initSdl();
@@ -102,36 +105,29 @@ void	Scene::_initThreads(void)
 		std::cout << "ThreadPool size: " << nbThread << std::endl;
 }
 
-void	Scene::_render(Sky *sky) 
+void	Scene::_render(Sky const& sky) 
 {
 	SDL_SetRenderDrawColor(this->_ren, 0x00, 0x00, 0x00, 0x00);
 	SDL_RenderClear(this->_ren);
-	if (!sky)
-		return;
-	for (size_t i = 0; i < sky->size(); i++)
-		this->_render(sky->getFlock(i));
+	for (size_t i = 0; i < sky.size(); i++)
+		this->_render(sky[i]);
 }
 
-void	Scene::_render(Flock *flock) 
+void	Scene::_render(Flock const& flock) 
 {
-	if (!flock)
-		return;
-
-	SDL_Color const &	color = flock->getColor();
+	SDL_Color const &	color = flock.getColor();
 	SDL_SetRenderDrawColor(this->_ren, color.r, color.g, color.b, 0);
-	for (size_t i = 0; i < flock->size(); i++)
-		this->_render(flock->getBoid(i));
+	for (size_t i = 0; i < flock.size(); i++)
+		this->_render(flock[i]);
 }
 
-void	Scene::_render(ABoid *boid) 
+void	Scene::_render(ABoid const& boid) 
 {
 	static int	boidHeight = g_set.getSetInt("boid_height");
 	static int	boidWidth = g_set.getSetInt("boid_width");
 
-	if (!boid)
-		return;
 	SDL_Rect		rect;
-	Coord const &	boidPos = boid->getPos();
+	Coord const &	boidPos = boid.getPos();
 	rect.x = boidPos.getX();
 	rect.y = boidPos.getY();
 	rect.h = boidHeight;
@@ -139,7 +135,7 @@ void	Scene::_render(ABoid *boid)
 	SDL_RenderFillRect(this->_ren, &rect);
 }
 
-void	Scene::render(Sky *sky)
+void	Scene::render(Sky const& sky)
 {
 	this->_render(sky);
 	SDL_RenderPresent(this->_ren);
@@ -192,7 +188,7 @@ void	Scene::mainLoop(Sky& sky)
 
 		if (this->_loopFnct != NULL)
 			this->_loopFnct(this->_dataLoop);
-		this->render(&sky);
+		this->render(sky);
 		SDL_PollEvent(&event);
 		if (event.type == SDL_QUIT)
 			break;

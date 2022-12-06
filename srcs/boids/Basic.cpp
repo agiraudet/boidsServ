@@ -6,19 +6,15 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 08:31:42 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 10:32:09 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:09:01 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Basic.hpp"
 
-Basic::Basic(void) : ABoid() {}
+Basic::Basic(unsigned int id, Flock& flock) : ABoid(id, flock) {}
 
-Basic::Basic(unsigned int id) : ABoid(id) {}
-
-Basic::Basic(unsigned int id, Flock *flock) : ABoid(id, flock) {}
-
-Basic::Basic(Basic const & src) {*this = src;}
+Basic::Basic(Basic const & src) : ABoid(src) {*this = src;}
 
 Basic::~Basic(void) {}
 
@@ -40,23 +36,23 @@ void	Basic::_baseRules(void)
 	Coord			avoid(0., 0.);
 	Coord			avgDir(0., 0.);
 	unsigned int	nbNear = 0;
-	size_t			flockSize = this->_flock->size();
+	size_t			flockSize = this->_flock.size();
 
 	for (size_t i = 0; i < flockSize; i++)
 	{
 		if (i != this->_id)
 		{
-			Coord const &	neighPos = this->_flock->getPos(i);
+			Coord const &	neighPos = this->_flock[i].getPos();
 			double			dist = this->_pos.getDist(neighPos);
 
-			if (dist < this->_ruleset->getMinD())
+			if (dist < this->_ruleset.getMinD())
 			{
 				avoid += (this->_pos - neighPos);
 			}
-			if (dist < this->_ruleset->getViewR())
+			if (dist < this->_ruleset.getViewR())
 			{
 				avgPos += neighPos;
-				avgDir += this->_flock->getDir(i);
+				avgDir += this->_flock[i].getDir();
 				nbNear++;
 			}
 		}
@@ -64,9 +60,9 @@ void	Basic::_baseRules(void)
 	if (nbNear)
 	{
 		avgPos /= nbNear;
-		this->_dir += ((avgPos - this->_pos) * this->_ruleset->getCenter());
+		this->_dir += ((avgPos - this->_pos) * this->_ruleset.getCenter());
 		avgDir /= nbNear;
-		this->_dir += ((avgDir - this->_dir) * this->_ruleset->getMatch());
+		this->_dir += ((avgDir - this->_dir) * this->_ruleset.getMatch());
 	}
-	this->_dir += (avoid * this->_ruleset->getAvoid());
+	this->_dir += (avoid * this->_ruleset.getAvoid());
 }

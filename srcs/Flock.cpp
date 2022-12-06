@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:05:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 15:08:33 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:03:09 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ Flock & Flock::operator=(Flock const & rhs)
 	return *this;
 }
 
-ABoid &	Flock::operator[](int i)
+ABoid &	Flock::operator[](int i) const
 {
 	return *(this->_boids[loopIndex(i, static_cast<int>(this->_boids.size()))]);
 }
@@ -85,11 +85,11 @@ void	Flock::_init(std::string type)
 	{
 		ABoid	*newBoid;
 		if (type.compare("Basic") == 0)
-			newBoid = new Basic(i, this);
+			newBoid = new Basic(i, *this);
 		else if (type.compare("Predator") == 0)
-			newBoid = new Predator(i, this);
+			newBoid = new Predator(i, *this);
 		else
-			newBoid = new Basic(i, this);
+			newBoid = new Basic(i, *this);
 		this->_boids.push_back(newBoid);
 	}
 }
@@ -104,32 +104,6 @@ void	Flock::setRuleset(RuleSet const & ruleset)
 	this->ruleset = ruleset;
 }
 
-Coord const &	Flock::getPos(size_t id) const
-{
-	return this->_boids[id]->getPos();
-}
-
-Coord const &	Flock::getDir(size_t id) const
-{
-	return this->_boids[id]->getDir();
-}
-
-ABoid*	Flock::getBoid(size_t id)
-{
-	while (id >= this->_size)
-		id -= this->_size;
-	while (id < 0)
-		id = this->_size + id;
-	return this->_boids[id];
-}
-
-ABoid const &	Flock::getCBoid(size_t id) const
-{
-	if (id >= this->_size)
-		throw std::exception();
-	return *(this->_boids[id]);
-}
-
 void	Flock::getAvgPos(Coord & pos) const
 {
 	size_t	i = 0;
@@ -138,6 +112,14 @@ void	Flock::getAvgPos(Coord & pos) const
 	pos /= i;
 }
 
+
+void	Flock::getAvgDir(Coord & pos) const
+{
+	size_t	i = 0;
+	for (; i < this->_boids.size(); i++)
+		pos += this->_boids[i]->getDir();
+	pos /= i;
+}
 
 SDL_Color const &	Flock::getColor(void) const
 {
@@ -221,7 +203,7 @@ std::ostream &	operator<<(std::ostream & o, Flock const & rhs)
 	o << "Flock of size " << fSize << ":" << std::endl;
 	for (size_t i = 0; i < fSize; i++)
 	{
-		o << rhs.getCBoid(i);
+		o << rhs[i];
 		if (i < fSize - 1)
 			o << std::endl;
 	}

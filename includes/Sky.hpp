@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:22:43 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 14:57:11 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:06:14 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class	Sky
 		~Sky(void);
 		
 		Sky &	operator=(Sky const & rhs);
-		Flock &	operator[](int i);
+		Flock &	operator[](int i) const;
 
 		void	addFlock(size_t size);
 		void	addFlock(size_t size, Uint8 r, Uint8 g, Uint8 b);

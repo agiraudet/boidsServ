@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 14:57:20 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:06:22 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ Sky & Sky::operator=(Sky const & rhs)
 	return *this;
 }
 
-Flock &	Sky::operator[](int i)
+Flock &	Sky::operator[](int i) const
 {
 	return *(this->_flocks[loopIndex(i, static_cast<int>(this->_flocks.size()))]);
 }

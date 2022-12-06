@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 14:01:20 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 10:34:28 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 12:56:00 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,14 @@
 #include "Flock.hpp"
 #include <unistd.h>
 
-ABoid::ABoid(void)
-: _id(0), _pos(Coord(0., 0.)), _dir(Coord(0., 0.)), _flock(NULL)
+ABoid::ABoid(unsigned int id, Flock& flock)
+: _id(id), _pos(Coord(0., 0.)), _dir(Coord(0., 0.)), _flock(flock),
+_ruleset(flock.ruleset)
 {
-}
-
-ABoid::ABoid(unsigned int id)
-: _id(id), _pos(Coord(0., 0.)), _dir(Coord(0., 0.)), _flock(NULL)
-{
-}
-
-ABoid::ABoid(unsigned int id, Flock *flock)
-: _id(id), _pos(Coord(0., 0.)), _dir(Coord(0., 0.)), _flock(flock)
-{
-	if (flock)
-		this->_ruleset = &(flock->ruleset);
-	else
-		this->_ruleset = NULL;
 }
 
 ABoid::ABoid(ABoid const & src)
+: _flock(src._flock), _ruleset(src._ruleset)
 {
 	*this = src;
 }
@@ -56,15 +44,15 @@ ABoid & ABoid::operator=(ABoid const & rhs)
 
 void	ABoid::_keepWithinBounds(void)
 {
-	double	turnFactor = this->_ruleset->getTurn();
+	double	turnFactor = this->_ruleset.getTurn();
 
-	if (this->_pos.getX() < this->_ruleset->getMinX())
+	if (this->_pos.getX() < this->_ruleset.getMinX())
 		this->_dir.setX(this->_dir.getX() + turnFactor);
-	if (this->_pos.getX() > this->_ruleset->getMaxX())
+	if (this->_pos.getX() > this->_ruleset.getMaxX())
 		this->_dir.setX(this->_dir.getX() - turnFactor);
-	if (this->_pos.getY() < this->_ruleset->getMinY())
+	if (this->_pos.getY() < this->_ruleset.getMinY())
 		this->_dir.setY(this->_dir.getY() + turnFactor);
-	if (this->_pos.getY() > this->_ruleset->getMaxY())
+	if (this->_pos.getY() > this->_ruleset.getMaxY())
 		this->_dir.setY(this->_dir.getY() - turnFactor);
 }
 
@@ -72,8 +60,8 @@ void	ABoid::_limitSpeed(void)
 {
 	double	speed = this->_dir.getVel();
 
-	if (speed > this->_ruleset->getSpeedL())
-		this->_dir = (this->_dir / speed) * this->_ruleset->getSpeedL();
+	if (speed > this->_ruleset.getSpeedL())
+		this->_dir = (this->_dir / speed) * this->_ruleset.getSpeedL();
 }
 
 void	ABoid::update(void)

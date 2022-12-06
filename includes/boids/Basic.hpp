@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 08:51:18 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 10:28:39 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 12:56:48 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ class	Basic : public ABoid
 {
 	public:
 
-		Basic(void);
-		Basic(unsigned int id);
-		Basic(unsigned int id, Flock *flock);
+		Basic(unsigned int id, Flock& flock);
 		Basic(Basic const & src);
 		~Basic(void);
 		
 		Basic & operator=(Basic const & rhs);
 
 	private:
+		Basic(void);
 		void	_baseRules(void);
 
 };

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:54:55 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 10:27:43 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 13:09:25 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@
 class	ABoid
 {
 	public:
-		ABoid(void);
-		ABoid(unsigned int id);
-		ABoid(unsigned int id, Flock *flock);
+		ABoid(unsigned int id, Flock& flock);
 		ABoid(ABoid const & src);
 		virtual ~ABoid(void);
 		
@@ -39,8 +37,6 @@ class	ABoid
 		inline void				setPos(Coord const & pos)	{this->_pos = pos;}
 		inline Coord const &	getDir(void) const			{return this->_dir;}
 		inline void				setDir(Coord const & dir)	{this->_dir = dir;}
-		inline void				setFlock(Flock *flock)		
-		{this->_flock = flock; this->_ruleset = (flock ? &(flock->ruleset) : NULL);}
 
 	protected:
 		virtual void	_baseRules(void) = 0;
@@ -51,8 +47,12 @@ class	ABoid
 		unsigned int	_id;
 		Coord			_pos;
 		Coord			_dir;
-		Flock			*_flock;
-		RuleSet			*_ruleset;
+		Flock&	_flock;
+		RuleSet&	_ruleset;
+	
+	private:
+		ABoid(void);
+		
 };
 
 void			boidThreadUpdate(int threadId, ABoid *boid);

@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 22:02:26 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/01 13:00:57 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/06 10:44:39 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void	Setting::_dfltValues(void)
 	this->_boolSet["fullscreen"] = false;
 	this->_boolSet["multithreading"] = true;
 	this->_boolSet["print_settings"] = false;
+	this->_boolSet["rand_seed"] = true;
 }
 
 bool	Setting::setExist(std::string const & setting) const

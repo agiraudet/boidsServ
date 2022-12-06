@@ -6,11 +6,14 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 10:18:56 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/05 11:27:05 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/05 14:54:30 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "StkWrap.hpp"
+# include "stk/BeeThree.h"
+# include "stk/Flute.h"
+# include "stk/PercFlut.h"
 
 static int	tick(void *outBuf, void *inBuf, unsigned int nBufFrames, double streamTime,
 		RtAudioStreamStatus status, void *voicerPtr)
@@ -96,6 +99,9 @@ int	StkWrap::addInstru(e_instru type, int group)
 			break;
 		case FLUTE:
 			newInstru = new stk::Flute(1.);
+			break;
+		case PERCFLUT:
+			newInstru = new stk::PercFlut();
 			break;
 		default:
 			return -1;
