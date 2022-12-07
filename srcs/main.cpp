@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/07 11:49:41 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:56:55 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	loopExample(void* arg)
 	//(You can ignore this counter by setting bypassCount to true).
 	if (count >= 10 || bypassCount)
 	{
+		stk::Voicer*	voic = data->stkWrap.getVoicer();
 		if (data->sky.size())
 		{
 			//Using average (x,y) of a flock as note frequencies
@@ -57,10 +58,12 @@ void	loopExample(void* arg)
 			double freqY = posY * 100. / maxY;
 
 			//play the notes. GroupId 0 should not by used as it's for default
-			stk::Voicer*	voic = data->stkWrap.getVoicer();
 			voic->noteOn(freqX, 50., 1);
 			voic->noteOn(freqY, 100., 2);
 		}
+		else
+			voic->silence();
+
 		count = 0;
 	}
 	else
