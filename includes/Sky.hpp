@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:22:43 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/06 13:06:14 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:46:47 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ class	Sky
 		void	addFlock(size_t size, SDL_Color const & color);
 		void	addFlock(Flock& flock);
 		void	delFlock(int id);
+		void	togglePause(void);
 		void	update(void);
 	
 	public:
@@ -50,6 +51,7 @@ class	Sky
 		void	_randomizeFlock(Flock & flock);
 
 		std::vector<Flock*>	_flocks;
+		bool				_pause;
 
 };
 #endif

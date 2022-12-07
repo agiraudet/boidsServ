@@ -6,17 +6,19 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 14:25:24 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/06 13:06:22 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:48:18 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sky.hpp"
 
 Sky::Sky(void)
+: _pause(false)
 {
 }
 
 Sky::Sky(Sky const & src)
+: _pause(false)
 {
 	*this = src;
 }
@@ -32,6 +34,7 @@ Sky & Sky::operator=(Sky const & rhs)
 	if (this == &rhs)
 		return *this;
 	this->_flocks = rhs._flocks;
+	this->_pause = rhs._pause;
 	return *this;
 }
 
@@ -96,10 +99,17 @@ void	Sky::delFlock(int id)
 		this->_flocks.erase(this->_flocks.begin() + id);
 }
 
+void	Sky::togglePause(void)
+{
+	this->_pause = !this->_pause;
+}
+
 void	Sky::update(void)
 {
 	bool	singleThread = true;
 
+	if (this->_pause)
+		return;
 	if (singleThread)
 	{
 		for (size_t i = 0; i < this->_flocks.size(); i++)

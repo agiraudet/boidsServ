@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/07 11:31:33 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:49:41 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void	inputExample(void* arg, int key)
 			break;
 		case SDLK_s:
 			data->sky.delFlock(-1);
+			break;
+		case SDLK_SPACE:
+			data->sky.togglePause();
 			break;
 	}
 }
