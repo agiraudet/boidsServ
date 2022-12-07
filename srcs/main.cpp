@@ -6,7 +6,7 @@
 /*   By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 13:04:04 by agiraude          #+#    #+#             */
-/*   Updated: 2022/12/06 11:04:27 by agiraude         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:31:33 by agiraude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,38 @@ struct	Data
 void	loopExample(void* arg)
 {
 	static int	count = 0;
-	bool		always = true;
+	bool		bypassCount = true;
 	Data*		data = (Data*)arg;
 	Coord		flockPos;
 
-	if (count >= 10 || always)
+	//Running at 60fps means this function is called 60 time per seconds.
+	//Adding this counter allows to only change the note 6 times per seconds
+	//(You can ignore this counter by setting bypassCount to true).
+	if (count >= 10 || bypassCount)
 	{
 		if (data->sky.size())
 		{
+			//Using average (x,y) of a flock as note frequencies
 			data->sky[0].getAvgPos(flockPos);
-			double freqX = flockPos.getX() * 100. / data->sky[0].ruleset.getMaxX();
-			double freqY = flockPos.getY() * 100. / data->sky[0].ruleset.getMaxY();
+			double posX = flockPos.getX();
+			double maxX = data->sky[0].ruleset.getMaxX();
+			double posY = flockPos.getY();
+			double maxY = data->sky[0].ruleset.getMaxY();
 
+			//make sure pos dont not exceed the bounds
+			//(can happen with a low turn factor in ruleset)
+			posX = posX < 0. ? 0. : (posX > maxX ? maxX : posX );
+			posY = posY < 0. ? 0. : (posY > maxY ? maxY : posY );
+
+			// map this pos to a 0-100 value. stk::noteOn() allow 0-128. values,
+			// but the to high ones make my head hurt.
+			double freqX = posX * 100. / maxX;
+			double freqY = posY * 100. / maxY;
+
+			//play the notes. GroupId 0 should not by used as it's for default
 			stk::Voicer*	voic = data->stkWrap.getVoicer();
-			voic->noteOn(freqX, 50., 0);
-			voic->noteOn(freqY, 50., 1);
+			voic->noteOn(freqX, 50., 1);
+			voic->noteOn(freqY, 100., 2);
 		}
 		count = 0;
 	}
@@ -75,11 +92,15 @@ int main(int argc, char **argv)
 	Sky		sky;
 	sky.addFlock(500, 255, 0, 0);
 
+	//Tuning the flock behavior's paramters (check Ruleset class)
+	sky[0].ruleset.setTurn(1.05);
+	sky[0].ruleset.setViewR(50.);
+
 	//Creating one (and only one) stkWrap. It's a class making it easier to use
 	//the stk::Voicer class it's wrapping.
 	StkWrap	wrap;
-	wrap.addInstru(BEETHREE, 0);
-	wrap.addInstru(PERCFLUT, 1);
+	wrap.addInstru(BEETHREE, 1);
+	wrap.addInstru(PERCFLUT, 2);
 
 	//Using our Data struct to old a reference to both the Sky and the STkWrap
 	Data	data(wrap, sky);
