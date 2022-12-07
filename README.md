@@ -7,10 +7,11 @@ The end goal is to provide an indpendant process capable of taking inputs (both 
  and outputing various informations about the boids in return.
  
 ## Controls
-Currently, only three keyboard inputs are used as realtime-controls:
+Currently, only four keyboard inputs are used as realtime-controls:
 * __[A]__ Create a new flock off boids. Number and position are randoms, with numbers between 50 ans 500.
 * __[S]__ Delete the mmost recently created flock.
 * __[Q]__ Exit the program.
+* __[SPACE]__ Allow/block the Sky from being updated
 
 On input, the Scene object will call the function setup by the Scene::setInputFnct() hook. Change it to change controls (except [Q], currently hard-coded). Scene::setInputFnct() need to be passed a pointeur to a function with this prototype:
 ```
