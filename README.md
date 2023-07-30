@@ -86,6 +86,5 @@ int main(void)
 
 ## TODO next
 * Get a better visual for the boids.
-* Create different type of boids with differents ruleset
-* Allow Flocks to see each other (and thus interract)
+* Create more different type of boids with differents ruleset
 * Create a proper control system (might be either via a GUI or a command prompt)
