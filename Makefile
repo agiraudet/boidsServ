@@ -12,7 +12,7 @@
 
 NAME		:=	Boids
 
-DEPS		:=	-lSDL2 -lm -lstk -lasound
+DEPS		:=	-lSDL2 -lm -lstk -lasound -lrtaudio
 
 BUILD_DIR	:=	./build
 
@@ -31,7 +31,8 @@ SRCS		:=	main.cpp \
 				Scene.cpp \
 				Sky.cpp \
 				StkWrap.cpp \
-				Timer.cpp
+				Timer.cpp \
+				Tonnetz.cpp
 
 OBJS		:=	$(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 
@@ -40,9 +41,9 @@ INC_DIRS	:=	./includes \
 
 INC_FLAGS	:=	$(addprefix -I, $(INC_DIRS))
 
-CXXFLAGS	:=	-MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-private-field -D __LINUX_ALSA__ -g $(INC_FLAGS)
+CXXFLAGS	:=	-g -MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-private-field -D __LINUX_ALSA__ -g $(INC_FLAGS)
 
-CXX			:=	clang++
+CXX			:=	g++
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) $(DEPS) -o $@
