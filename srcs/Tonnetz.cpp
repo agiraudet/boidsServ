@@ -1,6 +1,9 @@
 #include "Tonnetz.hpp"
 #include <cmath>
 
+constexpr std::array<std::array<char, 7>, 6> Tonnetz::hidden_grid;
+
+
 Tonnetz::Tonnetz(int screenres_x, int screenres_y,
                     int sctonnetz_x, int scrtonnetz_y)
 {

@@ -1,59 +1,61 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: agiraude <agiraude@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/02/06 15:43:27 by agiraude          #+#    #+#              #
-#    Updated: 2022/12/06 14:51:54 by agiraude         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME        := Boids
 
-NAME		:=	Boids
+RTAUDIO_PATH := /opt/homebrew/Cellar/rtaudio/6.0.1
+STK_PATH    := /opt/homebrew/opt/stk
+SDL2_PATH   := /opt/homebrew/opt/sdl2
 
-DEPS		:=	-lSDL2 -lm -lstk -lasound -lrtaudio
+DEPS        := -framework CoreAudio -framework CoreFoundation -framework Cocoa -lSDL2 -lm -lstk -lrtaudio
 
-BUILD_DIR	:=	./build
+BUILD_DIR   := ./build
 
-SRCS_DIR	:=	./srcs
+SRCS_DIR    := ./srcs
 
-SRCS		:=	main.cpp \
-				boids/ABoid.cpp \
-				boids/Basic.cpp \
-				boids/Goal.cpp \
-				boids/Predator.cpp\
-				boids/Prey.cpp \
-				Coord.cpp \
-				Flock.cpp \
-				RuleSet.cpp \
-				Setting.cpp \
-				Scene.cpp \
-				Sky.cpp \
-				StkWrap.cpp \
-				Timer.cpp \
-				Tonnetz.cpp
+SRCS        := main.cpp \
+               Sky.cpp \
+               Coord.cpp \
+               Scene.cpp \
+               StkWrap.cpp \
+               Flock.cpp \
+               Timer.cpp \
+               RuleSet.cpp \
+               Setting.cpp \
+               Tonnetz.cpp \
+               boids/ABoid.cpp \
+               boids/Basic.cpp \
+               boids/Goal.cpp \
+               boids/Predator.cpp \
+               boids/Prey.cpp
 
-OBJS		:=	$(SRCS:%.cpp=$(BUILD_DIR)/%.o)
+OBJS        := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 
-INC_DIRS	:=	./includes \
-				./includes/boids
+INC_DIRS    := ./includes \
+               ./includes/boids \
+               $(RTAUDIO_PATH)/include \
+               $(STK_PATH)/include \
+               $(STK_PATH)/include/stk \
+               $(SDL2_PATH)/include \
+               $(SDL2_PATH)/include/SDL2
 
-INC_FLAGS	:=	$(addprefix -I, $(INC_DIRS))
+INC_FLAGS   := $(addprefix -I, $(INC_DIRS))
 
-CXXFLAGS	:=	-g -MD -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -Wno-unused-private-field -D __LINUX_ALSA__ -g $(INC_FLAGS)
+LIB_DIRS    := $(RTAUDIO_PATH)/lib \
+               $(STK_PATH)/lib \
+               $(SDL2_PATH)/lib
 
-CXX			:=	g++
+LIB_FLAGS   := $(addprefix -L, $(LIB_DIRS))
+
+CXXFLAGS    := -MD -O3 -g $(INC_FLAGS) -std=c++11
+
+CXX         := clang++
 
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) $(DEPS) -o $@
+	$(CXX) $(CXXFLAGS) $(OBJS) $(LIB_FLAGS) $(DEPS) -o $@ -Wl,-rpath,$(RTAUDIO_PATH)/lib
 
+$(BUILD_DIR)/%.o: $(SRCS_DIR)/%.cpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)/boids
-
-$(BUILD_DIR)/%.o: $(SRCS_DIR)/%.cpp | $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@ 
 
 all: $(NAME)
 

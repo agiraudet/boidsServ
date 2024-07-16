@@ -45,12 +45,16 @@ StkWrap::StkWrap(void)
 				(unsigned int)stk::Stk::sampleRate(), &this->_bufFrames, &tick,
 				(void*)this->_voicer);
 	}
-	catch (RtAudioError &e)	{e.printMessage();}
+	catch (RtAudioErrorType error) {
+    		std::cerr << "RtAudio error: " << error << std::endl;
+	}	
 	try
 	{
 		this->_dac->startStream();
 	}
-	catch (RtAudioError &e)	{e.printMessage();}
+	catch (RtAudioErrorType error) {
+    		std::cerr << "RtAudio error: " << error << std::endl;
+	}
 }
 
 StkWrap::StkWrap(StkWrap const & src)
@@ -64,9 +68,8 @@ StkWrap::~StkWrap(void)
 	{
 		this->_dac->closeStream();
 	}
-	catch (RtAudioError &e)
-	{
-		e.printMessage();
+	catch (RtAudioErrorType error) {
+	    std::cerr << "RtAudio error: " << error << std::endl;
 	}
 	if (this->_dac)
 		delete this->_dac;

@@ -13,7 +13,7 @@
 #ifndef STKWRAP_HPP
 # define STKWRAP_HPP
 
-# include "stk/RtAudio.h"
+# include "rtaudio/RtAudio.h" 
 # include "stk/Voicer.h"
 
 enum	e_instru
